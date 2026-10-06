@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "agentsense",
+  "execution": {
+    "profile": "agentsense_live",
+    "repetitions": 1,
+    "max_workers": 16,
+    "judge_max_workers": 3,
+    "request_timeout_seconds": 300,
+    "episode_max_output_tokens": 32768
+  },
+  "roles": {
+    "evaluated_actor": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "AGENTSENSE_ACTOR_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-actor-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 1024
+      }
+    },
+    "judge_1": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "judge_id": "agentsense_judge_1",
+      "model": "replace-with-judge-1-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.8,
+        "max_tokens": 4096
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.8,
+          "max_tokens": 4096
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    },
+    "judge_2": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "judge_id": "agentsense_judge_2",
+      "model": "replace-with-judge-2-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.8,
+        "max_tokens": 4096
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.8,
+          "max_tokens": 4096
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    },
+    "judge_3": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "judge_id": "agentsense_judge_3",
+      "model": "replace-with-judge-3-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.8,
+        "max_tokens": 4096
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.8,
+          "max_tokens": 4096
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_actor"
+  },
+  "prompts": {
+    "multiagent_actor": {
+      "source": "official_repository",
+      "revision": "agentsense-official-prompt-template-free-form-v1",
+      "locator": "sim_eval/benchmarks/agentsense.py"
+    },
+    "judge": {
+      "source": "official_repository",
+      "revision": "agentsense-official-free-form-per-goal-interview-v3",
+      "locator": "sim_eval/benchmarks/agentsense.py"
+    }
+  },
+  "scoring": {
+    "judge_roles": [
+      "judge_1",
+      "judge_2",
+      "judge_3"
+    ]
+  },
+  "resources": {
+    "shared_environment": {
+      "special_configuration": "agentsense_2_to_5_actor_dynamic_roster",
+      "multiagent_enabled": true,
+      "actor_model_policy": "same_evaluated_model_for_every_actor"
+    }
+  }
+}

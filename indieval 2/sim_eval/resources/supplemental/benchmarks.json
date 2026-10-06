@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "catalog_revision": "supplemental-local-eval-snapshot-v1",
+  "extension_suite": "supplemental_v1",
+  "benchmarks": [
+    {
+      "id": "supplemental_hitom",
+      "display_name": "hitom (Supplemental compatibility)",
+      "protocol_family": "static",
+      "source": {
+        "revision_status": "pinned_local_snapshot",
+        "revision": "supplemental-local-eval-snapshot-v1",
+        "data_revision": "sha256:4aaaa742efd9475da36e46e66c281ae5edf26ce51a36230c5b60657763942664"
+      },
+      "access": {
+        "status": "available_local"
+      },
+      "official_protocol": {
+        "metrics": [
+          "supplemental_hitom.reward"
+        ],
+        "primary_metric": "supplemental_hitom.reward",
+        "protocol_authority": "Supplemental local snapshot, not original dataset authors",
+        "official_score_eligible": false
+      },
+      "caveats": [
+        "Supplementary compatibility evaluation; no unconditional OOD claim",
+        "Preserves source slice and labels, including known sampling and label issues"
+      ]
+    },
+    {
+      "id": "supplemental_paratomi",
+      "display_name": "paratomi (Supplemental compatibility)",
+      "protocol_family": "static",
+      "source": {
+        "revision_status": "pinned_local_snapshot",
+        "revision": "supplemental-local-eval-snapshot-v1",
+        "data_revision": "sha256:f9711f0df872346d6cfb8dba6bc2659a55cf6e16516bc5c4afed0d7c3341d753"
+      },
+      "access": {
+        "status": "available_local"
+      },
+      "official_protocol": {
+        "metrics": [
+          "supplemental_paratomi.reward"
+        ],
+        "primary_metric": "supplemental_paratomi.reward",
+        "protocol_authority": "Supplemental local snapshot, not original dataset authors",
+        "official_score_eligible": false
+      },
+      "caveats": [
+        "Supplementary compatibility evaluation; no unconditional OOD claim",
+        "Preserves source slice and labels, including known sampling and label issues"
+      ]
+    },
+    {
+      "id": "supplemental_mistakes",
+      "display_name": "mistakes (Supplemental compatibility)",
+      "protocol_family": "static",
+      "source": {
+        "revision_status": "pinned_local_snapshot",
+        "revision": "supplemental-local-eval-snapshot-v1",
+        "data_revision": "sha256:2f0b04fbc4065ece87a965d908efedf722df358f33eb045cb0daecd0b98e06ae"
+      },
+      "access": {
+        "status": "available_local"
+      },
+      "official_protocol": {
+        "metrics": [
+          "supplemental_mistakes.reward"
+        ],
+        "primary_metric": "supplemental_mistakes.reward",
+        "protocol_authority": "Supplemental local snapshot, not original dataset authors",
+        "official_score_eligible": false
+      },
+      "caveats": [
+        "Supplementary compatibility evaluation; no unconditional OOD claim",
+        "Preserves source slice and labels, including known sampling and label issues"
+      ]
+    },
+    {
+      "id": "supplemental_twinvoice",
+      "display_name": "twinvoice (Supplemental compatibility)",
+      "protocol_family": "static",
+      "source": {
+        "revision_status": "pinned_local_snapshot",
+        "revision": "supplemental-local-eval-snapshot-v1",
+        "data_revision": "sha256:e8218c77565b7677f2cb97689ef0b71887e0af177b57afd6f969fad5167f1852"
+      },
+      "access": {
+        "status": "available_local"
+      },
+      "official_protocol": {
+        "metrics": [
+          "supplemental_twinvoice.reward"
+        ],
+        "primary_metric": "supplemental_twinvoice.reward",
+        "protocol_authority": "Supplemental local snapshot, not original dataset authors",
+        "official_score_eligible": false
+      },
+      "caveats": [
+        "Supplementary compatibility evaluation; no unconditional OOD claim",
+        "Preserves source slice and labels, including known sampling and label issues"
+      ]
+    },
+    {
+      "id": "supplemental_socsci210",
+      "display_name": "socsci210 (Supplemental compatibility)",
+      "protocol_family": "static",
+      "source": {
+        "revision_status": "pinned_local_snapshot",
+        "revision": "supplemental-local-eval-snapshot-v1",
+        "data_revision": "sha256:8c041a57ff385d8b2f034a7e348b03b9fecbb14d4e24c9ed2d8d128cdb37cb47"
+      },
+      "access": {
+        "status": "available_local"
+      },
+      "official_protocol": {
+        "metrics": [
+          "supplemental_socsci210.reward"
+        ],
+        "primary_metric": "supplemental_socsci210.reward",
+        "protocol_authority": "Supplemental local snapshot, not original dataset authors",
+        "official_score_eligible": false
+      },
+      "caveats": [
+        "Supplementary compatibility evaluation; no unconditional OOD claim",
+        "Preserves source slice and labels, including known sampling and label issues"
+      ]
+    },
+    {
+      "id": "supplemental_sim_doc",
+      "display_name": "sim_doc (Supplemental compatibility)",
+      "protocol_family": "interactive",
+      "source": {
+        "revision_status": "pinned_local_snapshot",
+        "revision": "supplemental-local-eval-snapshot-v1",
+        "data_revision": "sha256:3c393dc81b69f7f90f869312d3dc16560407a2a1a7ae60734da8254d3d00c84a"
+      },
+      "access": {
+        "status": "available_local"
+      },
+      "official_protocol": {
+        "metrics": [
+          "supplemental_sim_doc.reward"
+        ],
+        "primary_metric": "supplemental_sim_doc.reward",
+        "protocol_authority": "Supplemental local snapshot, not original dataset authors",
+        "official_score_eligible": false
+      },
+      "caveats": [
+        "Supplementary compatibility evaluation; no unconditional OOD claim",
+        "Preserves source slice and labels, including known sampling and label issues"
+      ]
+    },
+    {
+      "id": "supplemental_sim_math",
+      "display_name": "sim_math (Supplemental compatibility)",
+      "protocol_family": "interactive",
+      "source": {
+        "revision_status": "pinned_local_snapshot",
+        "revision": "supplemental-local-eval-snapshot-v1",
+        "data_revision": "sha256:a46c9937c0661efc83b19ec7706bb177f53a489c3cae1366541e1ae8552bb91c"
+      },
+      "access": {
+        "status": "available_local"
+      },
+      "official_protocol": {
+        "metrics": [
+          "supplemental_sim_math.reward"
+        ],
+        "primary_metric": "supplemental_sim_math.reward",
+        "protocol_authority": "Supplemental local snapshot, not original dataset authors",
+        "official_score_eligible": false
+      },
+      "caveats": [
+        "Supplementary compatibility evaluation; no unconditional OOD claim",
+        "Preserves source slice and labels, including known sampling and label issues"
+      ]
+    }
+  ]
+}

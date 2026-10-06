@@ -1,0 +1,10 @@
+{
+  "benchmark_id": "lifechoices",
+  "path": "../../tests/fixtures/lifechoices.jsonl",
+  "format": "jsonl",
+  "source_kind": "synthetic_fixture",
+  "source_revision": "our-eval-synthetic-v1",
+  "split": "fixture",
+  "license_acknowledged": true,
+  "license": "CC0-1.0"
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "humanllm",
+  "execution": {
+    "profile": "humanllm_500_live",
+    "repetitions": 1,
+    "max_workers": 32,
+    "request_timeout_seconds": 120,
+    "episode_max_output_tokens": 32768
+  },
+  "roles": {
+    "evaluated_model": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "HUMANLLM_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-model-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 1024
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_model"
+  },
+  "prompts": {
+    "official_item_selection": {
+      "source": "official_paper",
+      "revision": "humanllm-20-candidates-top1-v1",
+      "locator": "https://arxiv.org/abs/2601.15793"
+    },
+    "supplemental_rank5_compat": {
+      "source": "supplemental_compat",
+      "revision": "supplemental-20-candidates-rank5-answer-tag-v2-natural-material-v1",
+      "locator": "sim_eval/benchmarks/humanllm.py"
+    }
+  },
+  "resources": {
+    "reported_metrics": [
+      "humanllm.top1_accuracy",
+      "humanllm.supplemental.hit_at_5",
+      "humanllm.supplemental.reciprocal_rank"
+    ]
+  }
+}

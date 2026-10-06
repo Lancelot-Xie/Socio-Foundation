@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "humanual",
+  "execution": {
+    "profile": "humanual_600_balanced_live",
+    "repetitions": 1,
+    "max_workers": 32,
+    "request_timeout_seconds": 300,
+    "episode_max_output_tokens": 32768,
+    "strata": [
+      "domain",
+      "user"
+    ]
+  },
+  "roles": {
+    "evaluated_model": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "HUMANUAL_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-model-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 1024
+      }
+    },
+    "judge": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "model": "replace-with-judge-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      },
+      "structured_output": {
+        "mode": "auto",
+        "fallback_order": [
+          "json_schema",
+          "json_object",
+          "none"
+        ]
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.0,
+          "max_tokens": 4096
+        },
+        "structured_output": {
+          "mode": "auto",
+          "fallback_order": [
+            "json_schema",
+            "json_object",
+            "none"
+          ]
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_model"
+  },
+  "prompts": {
+    "response_generation": {
+      "source": "official_repository",
+      "revision": "humanlm-system-prompts-r-v1",
+      "locator": "https://github.com/zou-group/humanlm/tree/6faaf072b14b3efb4d434237d6d2af13f7a91d00"
+    },
+    "alignment_judge": {
+      "source": "official_repository",
+      "revision": "humanlm-state-reward-and-state-reward-on-response-v1",
+      "locator": "https://github.com/zou-group/humanlm/tree/6faaf072b14b3efb4d434237d6d2af13f7a91d00"
+    }
+  },
+  "resources": {
+    "embedding_semantic_backend": {
+      "kind": "sentence_transformers",
+      "model": "sentence-transformers/all-roberta-large-v1",
+      "model_revision": "cf74d8acd4f198de950bf004b262e6accfed5d2c",
+      "model_path": "models/all-roberta-large-v1",
+      "metric": "cosine_similarity",
+      "encoder_selection": "project_pinned_user_requested",
+      "batch_size": 32,
+      "device": "cuda:0"
+    },
+    "official_test_judge": "anthropic/claude-haiku-4-5",
+    "official_target_temperature": 0.4,
+    "configured_target_temperature": 0.0,
+    "official_target_no_repeat_ngram_size": 4,
+    "official_target_max_tokens": {
+      "base": 512,
+      "thinking_or_humanlm": 1024
+    },
+    "portable_target_max_tokens": 1024,
+    "note": "no_repeat_ngram_size=4 is not representable by the portable OpenAI Chat Completions contract"
+  }
+}

@@ -1,0 +1,129 @@
+# Full imported populations; no smoke sampling or case cap.
+# Run from the repository root. Data manifests resolve relative to this file.
+# Pin model/tokenizer revisions and supply local_data before execution.
+# Candidate generation budgets remain benchmark-specific in protocol resources.
+# Configure presets.Deepseek in sim_eval/resources/global_eval_models.yaml
+# with the actual support model and revision; set DEEPSEEK_BASE_URL/API_KEY.
+# Do not remove global_eval_model: without it the suite replaces EVERY role
+# with the candidate, including partners, assistants and judges.
+schema_version: '1.0'
+suite_mode: formal
+suite_id: qwen3_8b_nothinking_full_v1
+coverage_revision: full-import-all-dependency-groups-v1
+seed: 42
+global_eval_model: Deepseek
+model:
+  backend: vllm
+  extra_body:
+    chat_template_kwargs:
+      enable_thinking: false
+  base_url: http://127.0.0.1:8000/v1
+  api_key_env: VLLM_API_KEY
+  require_api_key: false
+  model: Qwen/Qwen3-8B
+  model_revision: replace-with-immutable-model-revision
+  profile: vllm
+  base_url_env: VLLM_BASE_URL
+  max_inflight_requests: 16
+  token_accounting:
+    kind: huggingface
+    model_path: models/Qwen3-8B
+    model_id: Qwen/Qwen3-8B
+    model_revision: replace-with-immutable-tokenizer-revision
+    local_files_only: true
+    use_fast: true
+    model_context_tokens: 32768
+    min_generation_tokens: 10
+execution:
+  max_workers: 16
+  max_active_benchmarks: 2
+  benchmark_class_limits:
+    local_gpu_metric: 1
+  userlm_lic_repetitions: 10
+  local_device: cuda:0
+catalog: ../../sim_eval/resources/benchmarks.json
+entries:
+- id: sotopia
+  benchmark_id: sotopia
+  concurrency_class: default
+  manifest: ../../local_data/sotopia/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/sotopia.json
+  enable_thinking: false
+- id: coser
+  benchmark_id: coser
+  concurrency_class: default
+  manifest: ../../local_data/coser/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/coser.json
+  enable_thinking: false
+- id: tau_usi
+  benchmark_id: tau_usi
+  concurrency_class: default
+  manifest: ../../local_data/tau_usi/import_manifest.json
+  runtime_config: tau_usi_full_runtime.yaml
+  enable_thinking: false
+- id: lifechoices
+  benchmark_id: lifechoices
+  concurrency_class: default
+  manifest: ../../local_data/lifechoices/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/lifechoices.json
+  enable_thinking: false
+- id: mirrorbench
+  benchmark_id: mirrorbench
+  concurrency_class: default
+  manifest: ../../local_data/mirrorbench/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/mirrorbench.json
+  enable_thinking: false
+- id: agentsense
+  benchmark_id: agentsense
+  concurrency_class: default
+  manifest: ../../local_data/agentsense/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/agentsense.json
+  enable_thinking: false
+- id: userlm_lic
+  benchmark_id: userlm
+  concurrency_class: default
+  manifest: ../../local_data/userlm_lic/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/userlm.json
+  enable_thinking: false
+- id: social_r1
+  benchmark_id: social_r1
+  concurrency_class: default
+  manifest: ../../local_data/social_r1/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/social_r1.json
+  enable_thinking: false
+- id: behaviorchain
+  benchmark_id: behaviorchain
+  concurrency_class: default
+  manifest: ../../local_data/behaviorchain/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/behaviorchain.json
+  enable_thinking: false
+- id: alignx
+  benchmark_id: alignx
+  concurrency_class: default
+  manifest: ../../local_data/alignx/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/alignx.json
+  enable_thinking: false
+- id: humanllm
+  benchmark_id: humanllm
+  concurrency_class: default
+  manifest: ../../local_data/humanllm/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/humanllm.json
+  enable_thinking: false
+- id: fantom
+  benchmark_id: fantom
+  concurrency_class: local_gpu_metric
+  manifest: ../../local_data/fantom/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/fantom.json
+  enable_thinking: false
+- id: humanual
+  benchmark_id: humanual
+  concurrency_class: local_gpu_metric
+  manifest: ../../local_data/humanual/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/humanual.json
+  enable_thinking: false
+- id: userlm_section3
+  benchmark_id: userlm
+  concurrency_class: local_gpu_metric
+  manifest: ../../local_data/userlm_section3/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/userlm.json
+  enable_thinking: false

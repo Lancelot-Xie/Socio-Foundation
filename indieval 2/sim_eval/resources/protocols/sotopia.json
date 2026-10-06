@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "sotopia",
+  "execution": {
+    "profile": "sotopia_live",
+    "repetitions": 1,
+    "max_workers": 16,
+    "request_timeout_seconds": 300,
+    "episode_max_output_tokens": 32768
+  },
+  "roles": {
+    "evaluated_agent": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "SOTOPIA_AGENT_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-agent-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 2048
+      }
+    },
+    "partner_agent": {
+      "backend": "openai_compatible",
+      "base_url": "http://127.0.0.1:8001/v1",
+      "api_key_env": "SOTOPIA_PARTNER_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-partner-agent-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      }
+    },
+    "judge": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "model": "replace-with-judge-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      },
+      "structured_output": {
+        "mode": "auto",
+        "fallback_order": [
+          "json_schema",
+          "json_object",
+          "none"
+        ]
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.0,
+          "max_tokens": 4096
+        },
+        "structured_output": {
+          "mode": "auto",
+          "fallback_order": [
+            "json_schema",
+            "json_object",
+            "none"
+          ]
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_agent"
+  },
+  "prompts": {
+    "agent": {
+      "source": "official_repository",
+      "revision": "sotopia-agenerate-action-official-observation-v3",
+      "locator": "sim_eval/benchmarks/sotopia.py"
+    },
+    "evaluator": {
+      "source": "official_repository",
+      "revision": "sotopia-episode-evaluator-official-dimensions-json-schema-v4",
+      "locator": "sim_eval/benchmarks/sotopia.py"
+    }
+  },
+  "resources": {
+    "pairing_policy": "exactly_two_role_goal_assignments_per_selected_configuration",
+    "termination_policy": "max_20_actions_or_leave_or_more_than_2_consecutive_none_actions"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "fantom",
+  "execution": {
+    "profile": "fantom_set100_short_live_v1",
+    "repetitions": 1,
+    "max_workers": 32,
+    "request_timeout_seconds": 120,
+    "episode_max_output_tokens": 32768
+  },
+  "roles": {
+    "evaluated_model": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "FANTOM_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-model-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 1024
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_model"
+  },
+  "prompts": {
+    "question": {
+      "source": "supplemental_compat",
+      "revision": "fantom-supplemental-answer-tag-v1-natural-material-v1",
+      "locator": "sim_eval/benchmarks/fantom.py"
+    }
+  },
+  "resources": {
+    "belief_semantic_backend": {
+      "kind": "sentence_transformers",
+      "model": "sentence-transformers/all-roberta-large-v1",
+      "model_revision": "cf74d8acd4f198de950bf004b262e6accfed5d2c",
+      "model_path": "models/all-roberta-large-v1",
+      "metric": "cosine_similarity",
+      "batch_size": 32,
+      "device": "cuda:0"
+    },
+    "context_condition": {
+      "default": "short",
+      "full_policy": "explicit_separate_manifest_only"
+    }
+  }
+}

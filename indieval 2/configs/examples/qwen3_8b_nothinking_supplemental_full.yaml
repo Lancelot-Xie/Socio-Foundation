@@ -1,0 +1,87 @@
+# Full imported populations; no smoke sampling or case cap.
+# Run from the repository root. Data manifests resolve relative to this file.
+# Pin model/tokenizer revisions and supply local_data before execution.
+# Candidate generation budgets remain benchmark-specific in protocol resources.
+# Configure presets.Deepseek in sim_eval/resources/global_eval_models.yaml
+# with the actual support model and revision; set DEEPSEEK_BASE_URL/API_KEY.
+# Do not remove global_eval_model: without it the suite replaces EVERY role
+# with the candidate, including partners, assistants and judges.
+schema_version: '1.0'
+suite_mode: formal
+suite_id: qwen3_8b_nothinking_supplemental_full_v1
+coverage_revision: full-import-all-dependency-groups-v1
+seed: 42
+global_eval_model: Deepseek
+model:
+  backend: vllm
+  extra_body:
+    chat_template_kwargs:
+      enable_thinking: false
+  base_url: http://127.0.0.1:8000/v1
+  api_key_env: VLLM_API_KEY
+  require_api_key: false
+  model: Qwen/Qwen3-8B
+  model_revision: replace-with-immutable-model-revision
+  profile: vllm
+  base_url_env: VLLM_BASE_URL
+  max_inflight_requests: 16
+  token_accounting:
+    kind: huggingface
+    model_path: models/Qwen3-8B
+    model_id: Qwen/Qwen3-8B
+    model_revision: replace-with-immutable-tokenizer-revision
+    local_files_only: true
+    use_fast: true
+    model_context_tokens: 32768
+    min_generation_tokens: 10
+execution:
+  max_workers: 16
+  max_active_benchmarks: 2
+  benchmark_class_limits:
+    local_gpu_metric: 1
+  userlm_lic_repetitions: 10
+  local_device: cuda:0
+catalog: ../../sim_eval/resources/supplemental/benchmarks.json
+entries:
+- id: supplemental_hitom
+  benchmark_id: supplemental_hitom
+  concurrency_class: default
+  manifest: ../../local_data/supplemental_hitom/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/supplemental_hitom.json
+  enable_thinking: false
+- id: supplemental_mistakes
+  benchmark_id: supplemental_mistakes
+  concurrency_class: default
+  manifest: ../../local_data/supplemental_mistakes/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/supplemental_mistakes.json
+  enable_thinking: false
+- id: supplemental_paratomi
+  benchmark_id: supplemental_paratomi
+  concurrency_class: default
+  manifest: ../../local_data/supplemental_paratomi/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/supplemental_paratomi.json
+  enable_thinking: false
+- id: supplemental_sim_doc
+  benchmark_id: supplemental_sim_doc
+  concurrency_class: default
+  manifest: ../../local_data/supplemental_sim_doc/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/supplemental_sim_doc.json
+  enable_thinking: false
+- id: supplemental_sim_math
+  benchmark_id: supplemental_sim_math
+  concurrency_class: default
+  manifest: ../../local_data/supplemental_sim_math/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/supplemental_sim_math.json
+  enable_thinking: false
+- id: supplemental_socsci210
+  benchmark_id: supplemental_socsci210
+  concurrency_class: default
+  manifest: ../../local_data/supplemental_socsci210/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/supplemental_socsci210.json
+  enable_thinking: false
+- id: supplemental_twinvoice
+  benchmark_id: supplemental_twinvoice
+  concurrency_class: default
+  manifest: ../../local_data/supplemental_twinvoice/import_manifest.json
+  runtime_config: ../../sim_eval/resources/protocols/supplemental_twinvoice.json
+  enable_thinking: false

@@ -1,0 +1,672 @@
+{
+  "schema_version": "1.0",
+  "catalog_revision": "2026-08-24",
+  "audited_on": "2026-08-24",
+  "authority_policy": "Official paper, repository, dataset card, and released evaluation code take precedence. Supplemental artifacts are compatibility inputs only.",
+  "benchmarks": [
+    {
+      "id": "fantom",
+      "display_name": "FANToM",
+      "aliases": [
+        "FANTOM"
+      ],
+      "protocol_family": "theory_of_mind_qa",
+      "description": "Question answering over multi-party conversations for belief, answerability, information-access, and factual reasoning.",
+      "source": {
+        "paper": "https://aclanthology.org/2023.emnlp-main.890/",
+        "repository": "https://github.com/skywalker023/fantom",
+        "dataset": "https://storage.googleapis.com/ai2-mosaic-public/projects/fantom/fantom.tar.gz",
+        "revision": "1cae6fa30f5ba04ca0fff5f5716b5ba7055e2e85",
+        "revision_status": "pinned_audited_repository_commit",
+        "dataset_sha256": "1d08dfa0ea474c7f83b9bc7e3a7b466eab25194043489dd618b4c5223e1253a4",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "public",
+        "code_license": "MIT",
+        "data_license": "see upstream repository and constituent-data terms",
+        "constraints": "Use the official evaluator and retain the control task; do not flatten conversations before sampling.",
+        "unblock": null
+      },
+      "official_protocol": {
+        "split": "official evaluation set",
+        "population": 256,
+        "population_unit": "conversation",
+        "resolved_population_in_pinned_v1": 253,
+        "resolved_set_count_in_pinned_v1": 870,
+        "expanded_question_count_in_pinned_v1": 12832,
+        "evaluation_unit": "conversation_question",
+        "group_unit": "conversation",
+        "strata": [
+          "context_condition"
+        ],
+        "interaction": "single_turn_qa_over_conversation",
+        "metrics": [
+          "belief_choice_accuracy",
+          "belief_distance_accuracy",
+          "belief_token_f1",
+          "answerability_list_accuracy",
+          "answerability_binary_weighted_f1",
+          "information_access_list_accuracy",
+          "information_access_binary_weighted_f1",
+          "fact_token_f1",
+          "all",
+          "all_star"
+        ],
+        "primary_metric": "all_star",
+        "judge": "deterministic",
+        "notes": "Report short/full context and inaccessible/control scenarios separately; official leaderboard ordering prioritizes All* and then All. The paper reports 256 conversations, while the current official hash-pinned v1 payload contains 253 unique conversation IDs (0-255 with three IDs absent), 368 parts, and 870 sets."
+      }
+    },
+    {
+      "id": "social_r1",
+      "display_name": "Social-R1 / ToMBench-Hard",
+      "aliases": [
+        "Social-R1",
+        "ToMBench-Hard"
+      ],
+      "protocol_family": "theory_of_mind_mcq",
+      "description": "Expert-written social theory-of-mind multiple-choice questions across six ATOMS dimensions.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2603.09249",
+        "repository": null,
+        "dataset": "https://huggingface.co/datasets/Jincenzi/ToMBench_Hard",
+        "revision": "539f50b8a6c35e643628ebae0f842681d7079cf3",
+        "revision_status": "author_placeholder_dataset_empty_at_audited_revision",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "not_publicly_released",
+        "code_license": "unresolved",
+        "data_license": "unresolved",
+        "constraints": "The paper states that code and data will be released upon acceptance. The author-linked Hugging Face dataset exists but is empty at the pinned revision. Training questions must not be mixed into held-out evaluation.",
+        "unblock": "Use an author-released artifact when available and pin its revision; otherwise provide a locally authorized copy matching the declared schema."
+      },
+      "official_protocol": {
+        "split": "test",
+        "population": 100,
+        "evaluation_unit": "multiple_choice_question",
+        "group_unit": "question",
+        "strata": [
+          "belief",
+          "desire",
+          "emotion",
+          "intention",
+          "knowledge",
+          "non_literal_communication"
+        ],
+        "interaction": "single_turn_multiple_choice",
+        "metrics": [
+          "accuracy",
+          "accuracy_by_atoms_dimension"
+        ],
+        "primary_metric": "accuracy",
+        "judge": "deterministic",
+        "notes": "The complete corpus has 800 questions: 700 train and exactly 100 test. The full held-out test is therefore the default."
+      }
+    },
+    {
+      "id": "lifechoices",
+      "display_name": "LifeChoice",
+      "aliases": [
+        "LifeChoices",
+        "Life Choice"
+      ],
+      "protocol_family": "character_decision_mcq",
+      "description": "Literary-character role playing at consequential four-option decision points.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2404.12138",
+        "repository": "https://github.com/airaer1998/LifeChoice",
+        "dataset": "https://github.com/airaer1998/LifeChoice",
+        "revision": "main",
+        "revision_status": "unpinned_upstream_branch",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "partial_due_to_book_copyright",
+        "code_license": "Apache-2.0",
+        "data_license": "unresolved_for_source_books",
+        "constraints": "The official repository supports the expert-written-description condition. Original books needed by other context-construction conditions are not redistributed.",
+        "unblock": "Run the public expert-description condition, or configure lawfully acquired books for the other official conditions."
+      },
+      "official_protocol": {
+        "split": "released benchmark",
+        "population": 1462,
+        "population_unit": "decision_point",
+        "source_population": 388,
+        "source_population_unit": "book",
+        "evaluation_unit": "four_option_decision",
+        "group_unit": "book",
+        "strata": [
+          "book",
+          "context_condition"
+        ],
+        "interaction": "single_turn_character_choice",
+        "metrics": [
+          "accuracy",
+          "accuracy_by_context_condition"
+        ],
+        "primary_metric": "accuracy",
+        "judge": "deterministic",
+        "notes": "Entity replacement and the paper's contamination controls must remain identifiable in manifests."
+      }
+    },
+    {
+      "id": "behaviorchain",
+      "display_name": "BehaviorChain",
+      "aliases": [
+        "Behavior Chain"
+      ],
+      "protocol_family": "longitudinal_behavior_prediction",
+      "description": "Persona-conditioned longitudinal behavior prediction and generation over connected behavior chains.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2502.14642",
+        "repository": "https://github.com/O-L1RU1/BehaviorChain",
+        "dataset": null,
+        "revision": "22ba23b0f5ee414153e6483b8456d916185d625a",
+        "revision_status": "pinned_code_commit_full_data_withheld",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "full_dataset_not_publicly_released",
+        "code_license": "unresolved",
+        "data_license": "unresolved_copyright_restricted",
+        "constraints": "The paper reports 15,846 behaviors from 1,001 personas, but the official repository withholds the full dataset pending copyright resolution.",
+        "unblock": "Request authorized data from the authors or provide a licensed local export. A local derivative snapshot must be labeled non-canonical."
+      },
+      "official_protocol": {
+        "split": "official evaluation split (exact split cardinality unresolved)",
+        "population": 1001,
+        "population_unit": "persona_chain",
+        "behavior_count": 15846,
+        "evaluation_unit": "next_behavior_or_continuation",
+        "group_unit": "behavior_chain",
+        "strata": [
+          "persona",
+          "chain_length",
+          "key_behavior_status",
+          "task_mode"
+        ],
+        "interaction": "longitudinal_prediction_or_generation",
+        "metrics": [
+          "prediction_avg_score",
+          "prediction_cum_score",
+          "generation_avg_score",
+          "generation_cum_score",
+          "score_by_key_behavior_status"
+        ],
+        "primary_metric": "prediction_avg_score",
+        "judge": "deterministic_for_prediction_llm_for_generation",
+        "notes": "AvgScore and released-code CumScore are computed per complete chain, then macro-averaged across persona chains. Key/subkey is a node reporting slice, not a group sampling stratum. Official evaluation split size remains unresolved until data access."
+      }
+    },
+    {
+      "id": "alignx",
+      "display_name": "AlignX",
+      "aliases": [
+        "AignX",
+        "Align-X"
+      ],
+      "protocol_family": "personal_preference_pair",
+      "description": "Personalized chosen/rejected response evaluation conditioned on Reddit-derived user histories and profile variants.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2503.15463",
+        "repository": "https://github.com/JinaLeejnl/AlignX",
+        "dataset": "https://huggingface.co/datasets/JinaLeejnl/AlignX-test",
+        "revision": "2b48aa98ff3f2d9d1cc18197258c7353af8745ef",
+        "revision_status": "pinned_dataset_revision",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "public_with_viewer_schema_issue",
+        "code_license": "MIT",
+        "data_license": "see pinned dataset card",
+        "constraints": "Five official test variants are separate files. The dataset viewer currently reports a schema mismatch, so acquisition must verify file hashes and schemas locally.",
+        "unblock": "Download the five files from the pinned revision after accepting their terms; validate schemas before use."
+      },
+      "official_protocol": {
+        "split": "five released test variants",
+        "population": "all rows in pinned Reddit_DEMO, Reddit_PAIR, Reddit_UGC, Reddit_arbitrary, and Reddit_history16 files",
+        "population_status": "exact per-file counts unresolved from the official card",
+        "evaluation_unit": "chosen_rejected_pair",
+        "group_unit": "user",
+        "strata": [
+          "test_variant",
+          "user"
+        ],
+        "interaction": "single_turn_binary_preference_choice",
+        "metrics": [
+          "alignment_accuracy",
+          "alignment_accuracy_by_variant",
+          "diagnostic_direct_choice_accuracy"
+        ],
+        "primary_metric": "alignment_accuracy",
+        "judge": "target_and_pinned_reference_sequence_log_probabilities",
+        "notes": "Official Alignment Accuracy compares reference-adjusted chosen/rejected sequence margins. A deterministically side-assigned direct A/B generation score is diagnostic only and must not replace it. Never infer an exact population from file byte sizes."
+      }
+    },
+    {
+      "id": "humanllm",
+      "display_name": "HumanLLM Item Selection",
+      "aliases": [
+        "HumanLLM",
+        "HumanLLM item selection"
+      ],
+      "protocol_family": "purchase_item_selection",
+      "description": "Select the actually purchased item from 20 candidates using a user profile and purchase history.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2601.15793",
+        "repository": "https://github.com/microsoft/AnthropomorphicIntelligence",
+        "dataset": null,
+        "revision": "ff6a7d8e7381f9a88f3ae2841848af52134b26da",
+        "revision_status": "pinned_code_commit_official_task_data_not_separately_counted_or_packaged",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "official_dataset_access_unresolved",
+        "code_license": "see upstream repository",
+        "data_license": "unresolved",
+        "constraints": "The paper reports aggregate train/test sizes across six tasks but does not establish a separately released official item-selection test count. Third-party derivatives are not canonical.",
+        "unblock": "Obtain the author-released Cognitive Genome item-selection split and record its revision and license, or provide a locally authorized schema-compatible split."
+      },
+      "official_protocol": {
+        "split": "test",
+        "population": "unresolved_for_item_selection_only",
+        "aggregate_six_task_test_count": 132869,
+        "evaluation_unit": "twenty_candidate_purchase_choice",
+        "group_unit": "user",
+        "strata": [
+          "user",
+          "history_length",
+          "product_category_if_available"
+        ],
+        "interaction": "single_turn_item_selection",
+        "metrics": [
+          "top1_accuracy",
+          "parse_failure_rate"
+        ],
+        "primary_metric": "top1_accuracy",
+        "judge": "deterministic",
+        "notes": "Each record has one purchased item and 19 random negatives; use temperature 0.7 only when reproducing the paper's generation setting."
+      }
+    },
+    {
+      "id": "humanual",
+      "display_name": "HUMANUAL",
+      "aliases": [
+        "Humanual",
+        "HumanLM benchmark"
+      ],
+      "protocol_family": "persona_conditioned_user_response_simulation",
+      "description": "Generate the next response of a specific real user from a persona and single- or multi-turn context across six public-data domains.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2603.03303",
+        "repository": "https://github.com/zou-group/humanlm",
+        "dataset": "https://huggingface.co/snap-stanford",
+        "revision": "6faaf072b14b3efb4d434237d6d2af13f7a91d00",
+        "revision_status": "pinned_official_code_commit_and_per_domain_dataset_revisions",
+        "accessed_on": "2026-08-24"
+      },
+      "access": {
+        "status": "public_noncommercial_dataset_terms",
+        "code_license": "Apache-2.0",
+        "data_license": "CC-BY-NC-4.0 where declared; constituent source terms also apply",
+        "constraints": "Use official chronological test splits and preserve the six domain identities. The checked-in 600-row manifest is a balanced research subset, not the full official leaderboard population.",
+        "unblock": null
+      },
+      "official_protocol": {
+        "split": "official test split for each of six domains",
+        "population": "all released official test rows",
+        "research_subset_population": 600,
+        "research_subset_breakdown": {
+          "news": 100,
+          "book": 100,
+          "opinion": 100,
+          "politics": 100,
+          "chat": 100,
+          "email": 100
+        },
+        "evaluation_unit": "persona_context_ground_truth_response_row",
+        "group_unit": "row",
+        "strata": [
+          "domain",
+          "user"
+        ],
+        "interaction": "single_next_user_response_generation",
+        "metrics": [
+          "response_alignment",
+          "state_alignment",
+          "belief_alignment",
+          "goal_alignment",
+          "value_alignment",
+          "stance_alignment",
+          "emotion_alignment",
+          "communication_alignment"
+        ],
+        "primary_metric": "response_alignment",
+        "judge": "claude-4.5-haiku_official_test_judge",
+        "notes": "Official test generation uses temperature 0.4, no-repeat 4-gram decoding, permissive response-tag parsing, and up to 1024 tokens for thinking/HumanLM paths. Response alignment and six response-conditioned state alignment scores use the released LLM-judge prompts. The paper also reports embedding cosine similarity, but neither the paper nor pinned evaluation code identifies the embedding model; indieval therefore does not label any substituted encoder score as official."
+      }
+    },
+    {
+      "id": "userlm",
+      "display_name": "UserLM",
+      "aliases": [
+        "User-LM"
+      ],
+      "protocol_family": "intent_conditioned_user_simulation",
+      "description": "User simulation evaluated intrinsically on held-out dialogue and extrinsically on PRISM and GSM8K/HumanEval-derived intent tasks.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2510.06552",
+        "repository": null,
+        "dataset": null,
+        "model": "https://huggingface.co/microsoft/UserLM-8b",
+        "revision": "arXiv:2510.06552 and current model card",
+        "revision_status": "evaluation_data_and_scripts_not_released",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "model_public_evaluation_artifacts_unreleased",
+        "code_license": "not_applicable",
+        "model_license": "MIT",
+        "data_license": "WildChat/PRISM constituent terms; constructed intent suite unreleased",
+        "constraints": "The model card explicitly says training/evaluation data processing scripts are not released. PRISM and the 65-intent extrinsic suite require independently lawful acquisition.",
+        "unblock": "Provide the official 65-intent task file if released, or a documented local reconstruction from the named GSM8K/HumanEval sources; label reconstructions non-canonical."
+      },
+      "official_protocol": {
+        "split": "65 extrinsic intents with 10 simulations each",
+        "population": 650,
+        "population_unit": "simulated_episode",
+        "intent_count": 65,
+        "evaluation_unit": "user_assistant_episode",
+        "group_unit": "intent",
+        "strata": [
+          "source_task",
+          "intent",
+          "required_information_pattern"
+        ],
+        "interaction": "multi_turn_user_with_fixed_assistant",
+        "metrics": [
+          "intent_coverage",
+          "repeat_required_rate",
+          "skip_non_required_rate",
+          "added_demand_rate",
+          "turn_count_variance",
+          "turn_count_range",
+          "unigram_difference",
+          "assistant_task_score",
+          "intrinsic_role_adherence",
+          "intrinsic_intent_adherence",
+          "intrinsic_termination",
+          "intrinsic_diversity"
+        ],
+        "primary_metric": "assistant_task_score",
+        "judge": "mixed_deterministic_and_model_based",
+        "notes": "The paper's fixed assistant is GPT-4o. Assistant model and prompt must be recorded and changing either creates a protocol variant."
+      }
+    },
+    {
+      "id": "tau_usi",
+      "display_name": "tau-USI",
+      "aliases": [
+        "tau USI",
+        "tau-usi"
+      ],
+      "protocol_family": "tool_customer_service_user_simulation",
+      "description": "User simulation against a fixed customer-service agent in airline and retail tool-use tasks.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2603.11245",
+        "repository": null,
+        "dataset": "https://huggingface.co/datasets/cmu-lti/tau-usi",
+        "revision": "current gated dataset card",
+        "revision_status": "gated_revision_must_be_pinned_after_acceptance",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "gated",
+        "code_license": "unresolved",
+        "data_license": "CC-BY-NC-4.0 with dataset-specific use restrictions",
+        "constraints": "Research/evaluation use only; no LLM training, re-identification, or redistribution outside the dataset terms. The paper uses GPT-5.2 as the fixed assistant.",
+        "unblock": "Accept the official dataset terms, download to a user-managed local path, pin the revision, and configure the fixed assistant endpoint."
+      },
+      "official_protocol": {
+        "split": "165 unique tasks with three human reference conversations per task",
+        "population": 165,
+        "human_reference_conversations": 495,
+        "evaluation_unit": "task_episode",
+        "group_unit": "task",
+        "strata": [
+          "domain",
+          "task",
+          "difficulty_bin"
+        ],
+        "interaction": "multi_turn_user_with_fixed_tool_agent",
+        "metrics": [
+          "d1_communication",
+          "d2_information_pattern",
+          "d3_clarification",
+          "d4_error_reaction",
+          "dice_alignment",
+          "ece",
+          "evaluation_score",
+          "usi"
+        ],
+        "primary_metric": "usi",
+        "judge": "mixed_behavioral_annotation_and_deterministic_aggregation",
+        "notes": "Report every USI component. The composite is the mean of D1-D4, (1-ECE)*100, and Eval; Eval is 1-MAE."
+      }
+    },
+    {
+      "id": "mirrorbench",
+      "display_name": "MirrorBench",
+      "aliases": [
+        "SAP MirrorBench"
+      ],
+      "protocol_family": "dialogue_user_simulation",
+      "description": "Human-likeness evaluation for user simulators across four public dialogue datasets.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2601.08118",
+        "repository": "https://github.com/SAP/mirrorbench",
+        "dataset": "official acquisition scripts for ChatbotArena, ClariQ, OASST1, and QULAC",
+        "revision": "main",
+        "revision_status": "unpinned_upstream_branch",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "public_constituent_datasets",
+        "code_license": "Apache-2.0",
+        "data_license": "constituent dataset terms apply",
+        "constraints": "Dataset-specific licenses and provenance must be retained. Judge calls are repeated and confidence intervals are reported.",
+        "unblock": null
+      },
+      "official_protocol": {
+        "split": "stratified samples from four datasets",
+        "population": 795,
+        "population_breakdown": {
+          "chatbot_arena": 195,
+          "clariq": 200,
+          "oasst1": 200,
+          "qulac": 200
+        },
+        "evaluation_unit": "simulated_dialogue_or_turn",
+        "group_unit": "source_conversation",
+        "strata": [
+          "dataset",
+          "conversation_length",
+          "domain_or_task_label"
+        ],
+        "interaction": "multi_turn_user_with_fixed_assistant",
+        "metrics": [
+          "mattr",
+          "yule_k",
+          "hdd",
+          "human_anchored_lexical_z",
+          "gteval",
+          "pairwise_indistinguishability",
+          "rubric_score",
+          "human_human_control",
+          "paraphrase_control"
+        ],
+        "primary_metric": "gteval",
+        "judge": "llm_judge_repeated_twice_plus_deterministic_lexical_metrics",
+        "notes": "Use the official fixed sampling seed, two judge calls, 95% confidence intervals, and dataset-specific robustness seeds (five for ChatbotArena, three for each other dataset) when running the robustness profile."
+      }
+    },
+    {
+      "id": "coser",
+      "display_name": "CoSER",
+      "aliases": [
+        "CoSER Test",
+        "CoSER GCA"
+      ],
+      "protocol_family": "long_horizon_multi_character_roleplay",
+      "description": "Long-horizon multi-character simulation grounded in novels and evaluated by a critic.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2502.09082",
+        "repository": "https://github.com/Neph0s/CoSER",
+        "dataset": "https://huggingface.co/datasets/Neph0s/CoSER",
+        "revision": "7cc80430f92532cda85df45015a4aca8ecc068d0",
+        "revision_status": "pinned_dataset_revision",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "public_dataset_with_source_rights_caveat",
+        "code_license": "see upstream repository",
+        "data_license": "MIT on dataset card; underlying literary-source rights must still be respected",
+        "constraints": "Use CoSER Test rather than training plots and preserve in-domain/out-of-domain labels.",
+        "unblock": null
+      },
+      "official_protocol": {
+        "split": "CoSER Test",
+        "population": 200,
+        "population_breakdown": {
+          "in_domain": 100,
+          "out_of_domain": 100
+        },
+        "evaluation_unit": "multi_character_conversation",
+        "group_unit": "plot",
+        "strata": [
+          "in_domain_status",
+          "book",
+          "plot"
+        ],
+        "interaction": "sequential_multi_character_generation",
+        "metrics": [
+          "storyline_consistency",
+          "anthropomorphism",
+          "character_fidelity",
+          "storyline_quality",
+          "critic_average",
+          "bleu",
+          "rouge_l"
+        ],
+        "primary_metric": "critic_average",
+        "judge": "llm_critic",
+        "notes": "Official GCA uses GPT-4o-2024-08-06 as critic/environment, CoSER-70B as next-scene predictor, k=0, no hidden thoughts to the critic, and length correction lambda=1.5. Any substitution is a labeled variant."
+      }
+    },
+    {
+      "id": "sotopia",
+      "display_name": "SOTOPIA",
+      "aliases": [
+        "SOTOPIA-Hard",
+        "Sotopia Hard"
+      ],
+      "protocol_family": "multi_agent_social_interaction",
+      "description": "Goal-directed two-agent social interaction in procedurally defined social environments.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2310.11667",
+        "repository": "https://github.com/sotopia-lab/sotopia",
+        "dataset": "https://huggingface.co/datasets/cmu-lti/sotopia",
+        "revision": "installed_suite_manifest",
+        "revision_status": "version_ambiguity_must_be_resolved_at_acquisition",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "public",
+        "code_license": "MIT",
+        "data_license": "CC-BY-SA-4.0",
+        "constraints": "SOTOPIA-Hard has changed across releases and papers. The run manifest must pin the installed package/dataset revision and list the resolved episode IDs instead of assuming a historical count.",
+        "unblock": null
+      },
+      "official_protocol": {
+        "split": "SOTOPIA-Hard manifest for the pinned release",
+        "population": "all_resolved_episode_assignments",
+        "population_status": "version_dependent",
+        "evaluation_unit": "two_agent_episode",
+        "group_unit": "scenario_role_goal_assignment",
+        "strata": [
+          "scenario",
+          "role_assignment",
+          "goal",
+          "relationship"
+        ],
+        "interaction": "turn_based_two_agent_social_environment",
+        "metrics": [
+          "believability",
+          "relationship",
+          "knowledge",
+          "secret",
+          "social_rules",
+          "financial_material",
+          "goal_completion",
+          "overall"
+        ],
+        "primary_metric": "overall",
+        "judge": "llm_evaluator",
+        "notes": "The current official CLI documents a 100-simulation Sotopia Hard benchmark with a fixed Llama-3-70B partner; exact manifest and partner revision must be captured."
+      }
+    },
+    {
+      "id": "agentsense",
+      "display_name": "AgentSense",
+      "aliases": [
+        "Agent Sense"
+      ],
+      "protocol_family": "multi_agent_social_interaction",
+      "description": "Profile-sensitive multi-agent social simulations with goals and implicit private information.",
+      "source": {
+        "paper": "https://arxiv.org/abs/2410.19346",
+        "repository": "https://github.com/ljcleo/agent_sense",
+        "dataset": "https://github.com/ljcleo/agent_sense",
+        "revision": "main",
+        "revision_status": "unpinned_upstream_branch",
+        "accessed_on": "2026-08-12"
+      },
+      "access": {
+        "status": "public",
+        "code_license": "MIT",
+        "data_license": "see upstream repository",
+        "constraints": "Judge identities and aggregation must be recorded; private information must not leak into other agents' visible prompts.",
+        "unblock": null
+      },
+      "official_protocol": {
+        "split": "all profile-instantiated scenarios",
+        "population": 1225,
+        "template_count": 245,
+        "profiles_per_template": 5,
+        "private_information_scenarios": 363,
+        "evaluation_unit": "multi_agent_episode",
+        "group_unit": "scenario_template",
+        "strata": [
+          "scenario_domain",
+          "template",
+          "profile",
+          "private_information_presence"
+        ],
+        "interaction": "random_turn_order_multi_agent_episode",
+        "max_turns": 15,
+        "metrics": [
+          "self_goal_completion",
+          "other_goal_completion",
+          "external_goal_completion",
+          "private_information_accuracy",
+          "profile_sensitivity_index"
+        ],
+        "primary_metric": "self_goal_completion",
+        "judge": "three_llm_judges_with_mean_and_majority",
+        "notes": "The paper uses GPT-4o, Qwen2.5-72B, and Llama-3-70B judges. The cost-effective subset uses one profile-instantiation per template with repeated seeds."
+      }
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "userlm",
+  "execution": {
+    "episode_max_output_tokens": 32768,
+    "max_workers": 16,
+    "profile": "userlm_live"
+  },
+  "roles": {
+    "evaluated_user": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "USERLM_USER_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-user-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0
+      }
+    },
+    "fixed_assistant": {
+      "backend": "openai_compatible",
+      "base_url": "http://127.0.0.1:8001/v1",
+      "api_key_env": "USERLM_ASSISTANT_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-fixed-assistant-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      }
+    },
+    "intent_judge": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "model": "replace-with-intent-judge-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.0,
+          "max_tokens": 4096
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    },
+    "shard_judge": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "model": "replace-with-shard-judge-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.0,
+          "max_tokens": 4096
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_user"
+  },
+  "prompts": {
+    "section3_user": {
+      "source": "official_paper",
+      "revision": "userlm-paper-figure9-transcribed-v1",
+      "locator": "sim_eval/benchmarks/userlm.py"
+    },
+    "intent_judge": {
+      "source": "official_paper",
+      "revision": "userlm-paper-figure10-transcribed-v1",
+      "locator": "sim_eval/benchmarks/userlm.py"
+    },
+    "lic_user_profile": {
+      "source": "official_repository",
+      "revision": "lost-in-conversation-userlm-profile-v2-shard-text",
+      "locator": "https://github.com/microsoft/lost_in_conversation"
+    },
+    "lic_assistant": {
+      "source": "official_repository",
+      "revision": "lost-in-conversation-c865793fe34a929d316119b0451d01bd9183bcfd-isolated-v2",
+      "locator": "https://github.com/microsoft/lost_in_conversation"
+    },
+    "shard_judge": {
+      "source": "indieval_reconstruction",
+      "revision": "required-shard-id-text-v2",
+      "locator": "sim_eval/benchmarks/userlm.py"
+    }
+  },
+  "resources": {
+    "lic_repetitions": 10,
+    "ai_text_detector": {
+      "enabled": true,
+      "backend": "local_greyscope_seqcls",
+      "model_id": "yaoandy107/greyscope-qwen3.5-4b",
+      "model_revision": "bb25d4158a6795c6fce225156c0e330084ffb665",
+      "model_path": "models/greyscope-qwen3.5-4b",
+      "batch_size": 8,
+      "device": "cuda:0"
+    },
+    "code_execution": {
+      "enabled": true,
+      "backend": "local_hardened_linux",
+      "verifier_revision": "indieval-humaneval-verifier-v1",
+      "extraction_revision": "indieval-python-completion-extraction-v1",
+      "executor_revision": "indieval-local-hardened-linux-v1",
+      "python_executable": "current",
+      "timeout_seconds": 5,
+      "cpu_seconds": 5,
+      "memory_mb": 1024,
+      "max_processes": 8,
+      "max_open_files": 64,
+      "max_output_bytes": 65536,
+      "max_code_bytes": 262144,
+      "sanitize_env": true,
+      "temp_workdir": true,
+      "python_socket_guard": true,
+      "sandbox_uid": 65534,
+      "sandbox_gid": 65534,
+      "require_non_root": true,
+      "require_landlock": true,
+      "require_seccomp": true,
+      "network": "seccomp_denied",
+      "cache_enabled": true,
+      "cache_store_completion": true,
+      "cache_subdirectory": "verification_cache"
+    }
+  }
+}

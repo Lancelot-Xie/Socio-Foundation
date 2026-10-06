@@ -1,0 +1,1 @@
+{"source_id": "synthetic-1", "group_source_id": "synthetic-group-1", "input": {"row": {"story": "Dana put a bead in the red box.", "question": "Where is the bead?", "choices": "A. red box, B. blue box"}}, "gold": {"correct_answer": "red box"}, "strata": {"deception": "False", "story_length": 1, "question_order": 0}, "metadata": {"synthetic": true}}

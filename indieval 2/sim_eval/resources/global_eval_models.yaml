@@ -1,0 +1,22 @@
+schema_version: '1.0'
+presets:
+  Qwen:
+    backend: vllm
+    profile: vllm
+    model: replace-with-support-model
+    model_revision: replace-with-immutable-revision
+  Deepseek:
+    backend: chat_completions
+    profile: deepseek
+    model: replace-with-support-model
+    model_revision: replace-with-immutable-revision
+  GPT:
+    backend: openai_responses
+    profile: openai
+    model: replace-with-support-model
+    model_revision: replace-with-immutable-revision
+  DeepseekRelay:
+    backend: chat_completions
+    profile: relay
+    model: replace-with-support-model
+    model_revision: replace-with-immutable-revision

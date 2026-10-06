@@ -1,0 +1,275 @@
+{
+  "schema_version": "1.0",
+  "catalog_revision": "2026-08-24",
+  "selection_algorithm": "stable_hash_rank_v1",
+  "seed_namespace": "our_eval/sampling/v1",
+  "profiles": {
+    "canonical": {
+      "result_label": "canonical_protocol",
+      "description": "The full official evaluation population and official repetition policy for the pinned benchmark release. Availability-gated entries fail closed rather than falling back silently.",
+      "seed": 20260812,
+      "benchmarks": {
+        "fantom": {
+          "strategy": "all_groups",
+          "target": 253,
+          "unit": "conversation",
+          "strata": ["context_condition"],
+          "repetitions": 1,
+          "exception": "The paper reports 256 conversations, while the official hash-pinned v1 archive currently resolves to 253 unique conversation IDs and 870 question sets; evaluate every resolved group and record both counts."
+        },
+        "social_r1": {
+          "strategy": "all",
+          "target": 100,
+          "unit": "test_question",
+          "strata": ["atoms_dimension"],
+          "repetitions": 1,
+          "exception": "The held-out test contains exactly 100 questions; adding the 700 training questions would invalidate evaluation."
+        },
+        "lifechoices": {
+          "strategy": "all",
+          "target": 1462,
+          "unit": "decision_point",
+          "strata": ["book", "context_condition"],
+          "repetitions": 1
+        },
+        "behaviorchain": {
+          "strategy": "all_groups",
+          "target": "all_authorized_persona_chains",
+          "expected_population": 1001,
+          "unit": "persona_chain",
+          "strata": ["chain_length_bucket", "task_mode"],
+          "repetitions": 1,
+          "exception": "The official evaluation split cardinality is unresolved until the withheld dataset is obtained; the manifest records the resolved count."
+        },
+        "alignx": {
+          "strategy": "all_groups",
+          "target": "all_rows_in_five_pinned_test_variants",
+          "unit": "preference_pair",
+          "strata": ["test_variant", "user"],
+          "repetitions": 1,
+          "option_permutations": 1
+        },
+        "humanllm": {
+          "strategy": "all_groups",
+          "target": "all_official_item_selection_test_rows",
+          "unit": "purchase_choice",
+          "strata": ["user", "history_length", "product_category_if_available"],
+          "repetitions": 1,
+          "exception": "The paper reports only a six-task aggregate test count; the item-selection population is resolved from the authorized artifact at acquisition time."
+        },
+        "humanual": {
+          "strategy": "all_groups",
+          "target": 11945,
+          "unit": "official_test_row",
+          "strata": ["domain", "user"],
+          "repetitions": 1,
+          "exception": "Canonical evaluation uses every row from the six pinned official test splits; the 600-row balanced subset is a research profile only."
+        },
+        "userlm": {
+          "strategy": "all_groups",
+          "target": 650,
+          "unit": "episode",
+          "strata": ["source_task", "intent", "required_information_pattern"],
+          "repetitions": 1,
+          "episodes_per_intent": 10
+        },
+        "tau_usi": {
+          "strategy": "all_groups",
+          "target": 165,
+          "unit": "task",
+          "strata": ["domain", "difficulty_bin"],
+          "repetitions": 1,
+          "human_references_per_task": 3
+        },
+        "mirrorbench": {
+          "strategy": "official_stratified_all",
+          "target": 795,
+          "unit": "source_conversation",
+          "strata": ["dataset", "conversation_length", "domain_or_task_label"],
+          "repetitions": {"chatbot_arena": 5, "clariq": 3, "oasst1": 3, "qulac": 3},
+          "judge_calls_per_output": 2
+        },
+        "coser": {
+          "strategy": "all",
+          "target": 200,
+          "unit": "test_conversation",
+          "strata": ["in_domain_status", "book", "plot"],
+          "repetitions": 1
+        },
+        "sotopia": {
+          "strategy": "all_manifest_entries",
+          "target": "all_resolved_sotopia_hard_episode_assignments",
+          "unit": "episode",
+          "strata": ["scenario", "role_assignment", "goal", "relationship"],
+          "repetitions": 1,
+          "exception": "SOTOPIA-Hard cardinality is release-dependent; the pinned installed manifest is authoritative and cannot be enlarged with non-test scenarios."
+        },
+        "agentsense": {
+          "strategy": "all_groups",
+          "target": 1225,
+          "unit": "profile_instantiated_scenario",
+          "strata": ["scenario_domain", "template", "profile", "private_information_presence"],
+          "repetitions": 1
+        }
+      }
+    },
+    "default": {
+      "result_label": "indieval_research_sample",
+      "description": "Active deterministic research profile. Each benchmark uses its declared independent unit and claim boundary; a sampled profile is never labeled as an official full-test score unless identical to canonical.",
+      "seed": 20260812,
+      "benchmarks": {
+        "fantom": {
+          "strategy": "pre_materialized_complete_set100_class_stratified",
+          "target": 100,
+          "unit": "complete_set",
+          "strata": ["set_class"],
+          "repetitions": 1,
+          "context_condition": "short",
+          "effective_conversation_count": 100,
+          "effective_set_count": 100,
+          "effective_normalized_row_count": 1468,
+          "set_class_quota": {"A": 26, "I": 54, "M": 20},
+          "exception": "Every selected set is complete, at most one set is selected per conversation, and full context is never mixed into this short-context protocol."
+        },
+        "social_r1": {
+          "strategy": "all",
+          "target": 100,
+          "unit": "test_question",
+          "strata": ["atoms_dimension"],
+          "repetitions": 1,
+          "relation_to_odysim_snapshot": "equal_to_official_full_test",
+          "exception": "Official held-out test exhausted; training-set expansion is prohibited."
+        },
+        "lifechoices": {
+          "strategy": "all",
+          "target": 1462,
+          "unit": "decision_point",
+          "strata": ["book", "context_condition"],
+          "repetitions": 1,
+          "relation_to_odysim_snapshot": "greater_than_100"
+        },
+        "behaviorchain": {
+          "strategy": "stratified_group_hash",
+          "target": 500,
+          "unit": "persona_chain",
+          "strata": ["chain_length_bucket", "task_mode"],
+          "repetitions": 1,
+          "relation_to_odysim_snapshot": "greater_than_93_local_chains",
+          "fallback": "If fewer than 500 authorized chains exist, evaluate all and record resolved_count plus source_kind."
+        },
+        "alignx": {
+          "strategy": "all_groups",
+          "target": "all_rows_in_five_pinned_test_variants",
+          "unit": "preference_pair",
+          "strata": ["test_variant", "user"],
+          "repetitions": 1,
+          "option_permutations": 1,
+          "relation_to_odysim_snapshot": "all_official_rows_instead_of_100_per_variant"
+        },
+        "humanllm": {
+          "strategy": "stratified_group_hash",
+          "target": 2000,
+          "unit": "purchase_choice",
+          "strata": ["user", "history_length_bucket", "product_category_if_available"],
+          "repetitions": 1,
+          "relation_to_odysim_snapshot": "greater_than_500",
+          "fallback": "If the authorized official test has fewer than 2,000 rows, evaluate all; do not substitute an unlabeled derivative."
+        },
+        "humanual": {
+          "strategy": "balanced_domain_hash",
+          "target": 600,
+          "unit": "official_test_row",
+          "strata": ["domain", "user"],
+          "repetitions": 1,
+          "quota": {"news": 100, "book": 100, "opinion": 100, "politics": 100, "chat": 100, "email": 100},
+          "relation_to_odysim_snapshot": "official_prompt_and_metrics_replace_supplemental_composite_reward"
+        },
+        "userlm": {
+          "strategy": "pre_materialized_section3_conv100_plus_lic100_repeat10",
+          "target": 1300,
+          "unit": "protocol_specific_case_or_episode",
+          "strata": ["source_task", "intent", "required_information_pattern"],
+          "repetitions": 1,
+          "section3_case_count": 300,
+          "section3_independent_units": {"prism_conversation": 100, "commonsenseqa_question": 100, "natural_questions_question": 100},
+          "lic_task_count": 100,
+          "lic_task_quota": {"code": 45, "math": 55},
+          "lic_repetitions_per_task": 10,
+          "lic_episode_count": 1000,
+          "exception": "Section 3 and LiC remain separate runs and summaries; target=1300 is only their combined execution-case count, not one pooled metric denominator."
+        },
+        "tau_usi": {
+          "strategy": "all_groups",
+          "target": 165,
+          "unit": "task",
+          "strata": ["domain", "difficulty_bin"],
+          "repetitions": 1,
+          "human_references_per_task": 3,
+          "relation_to_odysim_snapshot": "benchmark_absent_locally_full_task_set"
+        },
+        "mirrorbench": {
+          "strategy": "balanced_source_stratified_hash",
+          "target": 200,
+          "unit": "source_conversation",
+          "strata": ["dataset", "conversation_length", "domain_or_task_label"],
+          "repetitions": 1,
+          "judge_calls_per_output": 2,
+          "quota": {"chatbot_arena": 50, "clariq": 50, "oasst1": 50, "qulac": 50},
+          "relation_to_odysim_snapshot": "research_200_balanced_across_four_sources",
+          "exception": "The selected OASST1 IDs and normalized dialogue hashes are recorded in mirrorbench/oasst1_training_exclusion.json for later training-data removal; cleanup is not applied by evaluation code."
+        },
+        "coser": {
+          "strategy": "all",
+          "target": 200,
+          "unit": "test_conversation",
+          "strata": ["in_domain_status", "book", "plot"],
+          "repetitions": 1,
+          "relation_to_odysim_snapshot": "greater_than_100"
+        },
+        "sotopia": {
+          "strategy": "pre_materialized_configuration50_both_roles",
+          "target": 50,
+          "unit": "configuration",
+          "strata": ["scenario", "role_assignment", "goal", "relationship"],
+          "repetitions": 1,
+          "evaluated_role_positions_per_configuration": 2,
+          "effective_episode_count": 100,
+          "exception": "Both evaluated role positions are retained for every selected configuration; do not interpret the 100 role episodes as 100 independent configurations."
+        },
+        "agentsense": {
+          "strategy": "research_200_paired_profiles",
+          "target": 100,
+          "unit": "scenario_template",
+          "strata": ["agent_count", "private_information_presence", "scenario_domain"],
+          "repetitions": 1,
+          "profiles_per_template": 2,
+          "effective_episode_count": 200,
+          "template_quota_by_agent_count": {"2": 51, "3": 26, "4": 18, "5": 5},
+          "relation_to_odysim_snapshot": "research_200_retains_all_rare_four_and_five_agent_templates",
+          "exception": "The imported Research-200 population is already materialized as two profiles for each of 100 templates; sampling must keep each template group intact so both PSI inputs remain present."
+        }
+      }
+    },
+    "offline_smoke": {
+      "result_label": "synthetic_offline_smoke_not_a_benchmark_score",
+      "description": "Tiny repository-owned synthetic fixtures used only to verify adapters, parsers, replay backends, scoring, and reporting without network, credentials, copyrighted text, or paid inference.",
+      "seed": 20260812,
+      "fixture_policy": "synthetic_only",
+      "benchmarks": {
+        "fantom": {"strategy": "fixture_all_groups", "target": 2, "unit": "conversation", "strata": ["context_condition"], "repetitions": 1},
+        "social_r1": {"strategy": "fixture_all", "target": 2, "unit": "question", "repetitions": 1},
+        "lifechoices": {"strategy": "fixture_all_groups", "target": 2, "unit": "decision_point", "repetitions": 1},
+        "behaviorchain": {"strategy": "fixture_all_groups", "target": 2, "unit": "behavior_chain", "repetitions": 1},
+        "alignx": {"strategy": "fixture_all_groups", "target": 2, "unit": "preference_pair", "repetitions": 1},
+        "humanllm": {"strategy": "fixture_all_groups", "target": 2, "unit": "purchase_choice", "repetitions": 1},
+        "humanual": {"strategy": "fixture_all_groups", "target": 2, "unit": "official_test_row", "strata": ["domain", "user"], "repetitions": 1},
+        "userlm": {"strategy": "fixture_all_groups", "target": 2, "unit": "episode", "repetitions": 1},
+        "tau_usi": {"strategy": "fixture_all_groups", "target": 2, "unit": "task", "repetitions": 1},
+        "mirrorbench": {"strategy": "fixture_all_groups", "target": 2, "unit": "source_conversation", "repetitions": 1},
+        "coser": {"strategy": "fixture_all", "target": 2, "unit": "test_conversation", "repetitions": 1},
+        "sotopia": {"strategy": "fixture_all_groups", "target": 2, "unit": "episode", "repetitions": 1},
+        "agentsense": {"strategy": "fixture_all_groups", "target": 2, "unit": "scenario_template", "strata": ["agent_count", "private_information_presence", "scenario_domain"], "repetitions": 1}
+      }
+    }
+  }
+}

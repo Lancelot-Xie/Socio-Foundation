@@ -1,0 +1,77 @@
+workflow: hierarchy_five
+expert_manifest: task_experts.yaml
+tasks: [social_r1, userllm, alignx, fantom, lifechoices, behavior_chain, mirrorbench, humanllm,
+        humanual_book, humanual_chat, humanual_opinion, humanual_politics, coser, sotopia]
+dimensions: [F, S, U, T, N]
+upstream_repo: ../framework
+data_root: ../data/post_training
+output_dir: ../outputs/hierarchy
+model:
+  base_model: ${SFT_BASE}
+  student_mode: lora
+  lora_rank: 32
+  lora_alpha: 64
+  lora_targets: all-linear
+  lora_dropout: 0.0
+  dtype: bfloat16
+  gradient_checkpointing: true
+  chat_template_kwargs: {enable_thinking: false, thinking_budget: 0}
+teacher: {device: auto, dtype: bfloat16}
+seeds: [42]
+steps: {distill: 200, final: 1000}
+baseline_workers_per_gpu: 2
+baseline_chunk_size: 32
+inference: {batch_size: 8}
+demo_limit_per_task: 2048
+demo_candidates: 2
+validation_limit_per_task: 64
+evaluation_split: validation
+evaluate: true
+data:
+  objective_only: false
+  coser_reference_prefixes: true
+  validation_fraction: 0.05
+  calibration_fraction: 0.05
+  eval_group_overlap: report
+  overlong_policy: exclude
+rollout:
+  context_length: 16384
+  max_prompt_tokens: 6144
+  max_new_tokens: 1024
+  temperature: 1.0
+  max_turns: 1
+  environment_factory: null
+  generation_batch_size: 4
+train:
+  stage: opd
+  objective: forward_kl
+  trajectory_source: student  # Stage builder changes dimension training to fixed teacher trajectories.
+  batch_size: 4
+  global_prompt_batch: 32
+  learning_rate: 0.00001
+  warmup_steps: 10
+  weight_decay: 0.1
+  save_every: 50
+  eval_every: 50
+  eval_limit_per_task: 16
+  teacher_top_k: 64
+  anchor_coef: 0.0
+quality:
+  evaluator: opd.hierarchy_judge:hierarchy_response
+  filter_demos: true
+  min_score: 0.6
+  task_min_scores: {humanllm: 0.2}
+  keep_per_prompt: 1
+qgpi: {enabled: false}
+fusion:
+  # MOPD-style final stage: student rollouts + sampled-token reverse-KL surrogate.
+  # The train.objective above remains forward_kl for fixed teacher trajectories.
+  objective: sampled_reverse_kl
+  advantage_clip: 5.0
+  batch_size: 1
+  global_prompt_batch: 32
+  learning_rate: 0.000002
+  warmup_steps: 20
+  save_every: 200
+  eval_every: 200
+  eval_limit_per_task: 16

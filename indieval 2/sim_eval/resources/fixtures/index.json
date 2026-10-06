@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "source_kind": "synthetic_fixture",
+  "source_revision": "our-eval-synthetic-v1",
+  "license": "CC0-1.0",
+  "originality_statement": "All names, scenarios, products, conversations, and answers in these files were newly written for offline software tests and are not copied from any benchmark or Supplemental data.",
+  "benchmarks": {
+    "fantom": "fantom.jsonl",
+    "social_r1": "social_r1.jsonl",
+    "lifechoices": "lifechoices.jsonl",
+    "behaviorchain": "behaviorchain.jsonl",
+    "alignx": "alignx.jsonl",
+    "humanllm": "humanllm.jsonl",
+    "humanual": "humanual.jsonl",
+    "userlm": "userlm.jsonl",
+    "tau_usi": "tau_usi.jsonl",
+    "mirrorbench": "mirrorbench.jsonl",
+    "coser": "coser.jsonl",
+    "sotopia": "sotopia.jsonl",
+    "agentsense": "agentsense.jsonl"
+  }
+}

@@ -1,0 +1,43 @@
+schema_version: '1.0'
+benchmark_id: lifechoices
+execution:
+  profile: lifechoices_example
+  repetitions: 1
+  max_workers: 32
+  request_timeout_seconds: 120
+  episode_max_output_tokens: 32768
+roles:
+  evaluated_model:
+    backend: vllm
+    extra_body:
+      chat_template_kwargs:
+        enable_thinking: false
+    base_url: http://127.0.0.1:8000/v1
+    api_key_env: VLLM_API_KEY
+    require_api_key: false
+    model: Qwen/Qwen3-8B
+    model_revision: replace-with-immutable-model-revision
+    generation:
+      temperature: 0.0
+      max_tokens: 1024
+    profile: vllm
+    base_url_env: VLLM_BASE_URL
+    max_inflight_requests: 16
+    token_accounting:
+      kind: huggingface
+      model_path: models/Qwen3-8B
+      model_id: Qwen/Qwen3-8B
+      model_revision: replace-with-immutable-tokenizer-revision
+      local_files_only: true
+      use_fast: true
+      model_context_tokens: 32768
+      min_generation_tokens: 10
+routing:
+  default_role: evaluated_model
+prompts:
+  character_choice:
+    source: supplemental_compat
+    revision: lifechoice-supplemental-answer-tag-v1-natural-material-v1
+    locator: sim_eval/benchmarks/lifechoices.py
+resources:
+  context_condition: expert_written_description_public_condition

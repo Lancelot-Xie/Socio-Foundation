@@ -1,0 +1,119 @@
+# Supply one compatible adapter per task under checkpoint_root, or set OPD_EXPERT_ROOT.
+schema: simulation-task-experts-v1
+checkpoint_root: ../checkpoints/task_experts
+tasks:
+- task: social_r1
+  dimensions:
+  - S
+  metric_status: objective_complete
+  checkpoints:
+  - id: social_r1_expert
+    adapter: social_r1/adapter
+- task: userllm
+  dimensions:
+  - U
+  - T
+  - N
+  metric_status: mixed_judge_and_objective_submetrics
+  objective_trial:
+    axis: T
+    metric: PRISM_termination_accuracy
+    scope: boundary_only
+  objective_diagnostics:
+  - termination_f1
+  - intent_decomposition
+  - first_turn_diversity
+  checkpoints:
+  - id: userllm_expert
+    adapter: userllm/adapter
+- task: alignx
+  dimensions:
+  - F
+  metric_status: objective_complete
+  checkpoints:
+  - id: alignx_expert
+    adapter: alignx/adapter
+- task: fantom
+  dimensions:
+  - S
+  metric_status: objective_complete
+  checkpoints:
+  - id: fantom_expert
+    adapter: fantom/adapter
+- task: lifechoices
+  dimensions:
+  - F
+  metric_status: objective_complete
+  checkpoints:
+  - id: lifechoices_expert
+    adapter: lifechoices/adapter
+- task: behavior_chain
+  dimensions:
+  - F
+  metric_status: objective_complete_node_only_CumScore_unavailable
+  checkpoints:
+  - id: behavior_chain_expert
+    adapter: behavior_chain/adapter
+- task: mirrorbench
+  dimensions:
+  - N
+  metric_status: judge_main_reward_lexical_diagnostics_local
+  objective_trial:
+    axis: N
+    metric: first_turn_lexical_similarity
+    scope: not_GTEval_or_full_dialogue
+  checkpoints:
+  - id: mirrorbench_expert
+    adapter: mirrorbench/adapter
+- task: humanllm
+  dimensions:
+  - F
+  metric_status: objective_complete
+  checkpoints:
+  - id: humanllm_expert
+    adapter: humanllm/adapter
+- task: humanual_book
+  dimensions:
+  - F
+  metric_status: llm_judge_required
+  checkpoints:
+  - id: humanual_book_expert
+    adapter: humanual_book/adapter
+- task: humanual_chat
+  dimensions:
+  - F
+  metric_status: llm_judge_required
+  checkpoints:
+  - id: humanual_chat_expert
+    adapter: humanual_chat/adapter
+- task: humanual_opinion
+  dimensions:
+  - F
+  metric_status: llm_judge_required
+  checkpoints:
+  - id: humanual_opinion_expert
+    adapter: humanual_opinion/adapter
+- task: humanual_politics
+  dimensions:
+  - F
+  metric_status: llm_judge_required
+  checkpoints:
+  - id: humanual_politics_expert
+    adapter: humanual_politics/adapter
+- task: coser
+  dimensions:
+  - F
+  - T
+  - N
+  metric_status: llm_judge_required
+  checkpoints:
+  - id: coser_expert
+    adapter: coser/adapter
+- task: sotopia
+  dimensions:
+  - U
+  - N
+  metric_status: llm_judge_required
+  checkpoints:
+  - id: sotopia_expert
+    adapter: sotopia/adapter

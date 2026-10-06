@@ -1,0 +1,8 @@
+Indieval
+Copyright 2026 Anonymous contributors
+
+Framework and supplemental evaluation code are distributed under Apache-2.0.
+Synthetic fixtures are CC0-1.0 as declared in their index. Benchmark datasets,
+model weights, optional external runtimes and upstream publications retain their
+own terms and are not included in this release. Public benchmark citations in
+the catalog identify third-party benchmarks, not the anonymous submission.

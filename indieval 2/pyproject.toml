@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "indieval"
+version = "0.3.40"
+description = "Protocol-aware evaluation for human simulation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+dependencies = ["PyYAML>=6.0", "tiktoken>=0.7", "numpy>=1.24"]
+
+[project.optional-dependencies]
+supplemental = ["pydantic>=2.0,<3"]
+huggingface = ["transformers>=4.40", "torch>=2.1"]
+fantom = ["sentence-transformers>=2.2", "torch>=2.1"]
+greyscope = ["transformers>=5.5.0", "torch>=2.4.0", "emoji>=2.10"]
+formal = ["sentence-transformers>=2.2", "transformers>=5.5.0", "torch>=2.4.0", "emoji>=2.10"]
+
+[project.scripts]
+indieval = "sim_eval.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sim_eval*"]
+
+[tool.setuptools.package-data]
+sim_eval = ["resources/**/*.json", "resources/**/*.jsonl", "resources/*.yaml", "extensions/supplemental/vendor/LICENSE", "extensions/supplemental/public_protocol_snapshot.json"]

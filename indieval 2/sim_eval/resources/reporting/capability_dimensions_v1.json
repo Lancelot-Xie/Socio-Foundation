@@ -1,0 +1,561 @@
+{
+  "schema_version": "1.0",
+  "mapping_revision": "capability-dimensions-user-taxonomy-v4",
+  "aggregation": "group_only_no_composite_score",
+  "dimensions": [
+    {
+      "id": "F",
+      "name_en": "Individual Fidelity",
+      "name_zh": "个体保真",
+      "question": "是否复现目标个体、角色、偏好、状态及给定意图"
+    },
+    {
+      "id": "S",
+      "name_en": "Social-State Grounding",
+      "name_zh": "社会状态理解",
+      "question": "是否理解他人的信念、知识、意图、情绪和私有信息"
+    },
+    {
+      "id": "U",
+      "name_en": "User Utility & Outcome Realization",
+      "name_zh": "用户效用与结果实现",
+      "question": "是否推进目标并产生实际任务或社会结果"
+    },
+    {
+      "id": "T",
+      "name_en": "Sequential & Narrative Coherence",
+      "name_zh": "序列与叙事连贯性",
+      "question": "多轮行为是否前后连贯、符合因果和情节发展"
+    },
+    {
+      "id": "N",
+      "name_en": "Human Behavioral Realism",
+      "name_zh": "人类行为真实性",
+      "question": "表达、反应、披露、终止及结果分布是否接近真实人类"
+    }
+  ],
+  "metrics": [
+    {
+      "dimension": "F",
+      "entry": "lifechoices",
+      "metric": "lifechoices.accuracy",
+      "label": "LifeChoices · 选择准确率",
+      "note": "",
+      "dataset": "LifeChoices",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "F",
+      "entry": "alignx",
+      "metric": "alignx.direct_choice_accuracy",
+      "label": "AlignX · 直接选择准确率",
+      "note": "使用当前 direct-choice 协议，不替换成 reference-margin 指标。",
+      "dataset": "AlignX",
+      "summary": true,
+      "summary_reason": "使用当前 direct-choice 协议，不替换成 reference-margin 指标。"
+    },
+    {
+      "dimension": "F",
+      "entry": "humanllm",
+      "metric": "humanllm.diagnostic.top5_accuracy",
+      "label": "HumanLLM · Top-5 准确率",
+      "note": "",
+      "dataset": "HumanLLM",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "F",
+      "entry": "humanllm",
+      "metric": "humanllm.supplemental.reciprocal_rank",
+      "label": "HumanLLM · Reciprocal Rank",
+      "note": "",
+      "dataset": "HumanLLM",
+      "summary": false
+    },
+    {
+      "dimension": "F",
+      "entry": "behaviorchain",
+      "metric": "behaviorchain.diagnostic.node_micro_score",
+      "label": "BehaviorChain · Node score",
+      "note": "以节点计权，与 persona 宏平均 AvgScore 的分母不同。",
+      "dataset": "BehaviorChain",
+      "summary": true,
+      "summary_reason": "节点级微平均准确率；AvgScore（按链等权）另列于数据集明细，不互相替代。"
+    },
+    {
+      "dimension": "F",
+      "entry": "behaviorchain",
+      "metric": "behaviorchain.prediction.avg_score",
+      "label": "BehaviorChain · AvgScore",
+      "note": "完整预测链，先计算各链节点准确率，再按 persona chain 等权。",
+      "dataset": "BehaviorChain",
+      "summary": false
+    },
+    {
+      "dimension": "F",
+      "entry": "coser",
+      "metric": "coser.scene.character_fidelity",
+      "label": "CoSER · Character Fidelity",
+      "note": "采用框架已算好的场景 GCA 分，不另行修正 actor runs，也不改用不可用的逐角色分。",
+      "dataset": "CoSER",
+      "summary": true,
+      "summary_reason": "采用框架已算好的场景 GCA 分，不另行修正 actor runs，也不改用不可用的逐角色分。"
+    },
+    {
+      "dimension": "F",
+      "entry": "humanual",
+      "metric": "humanual.response_alignment",
+      "label": "HUMANUAL · Response alignment",
+      "note": "",
+      "dataset": "HUMANUAL",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "F",
+      "entry": "humanual",
+      "metric": "humanual.state_alignment",
+      "label": "HUMANUAL · State alignment",
+      "note": "",
+      "dataset": "HUMANUAL",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "F",
+      "entry": "humanual",
+      "metric": "humanual.state.communication_alignment",
+      "label": "HUMANUAL · Communication alignment",
+      "note": "Communication 是六个 state 维度之一，和 state 总分相关，不能当成独立样本相加。",
+      "dataset": "HUMANUAL",
+      "summary": false
+    },
+    {
+      "dimension": "F",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.intent_adherence",
+      "label": "UserLM Section 3 · intent_adherence",
+      "note": "",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "F",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.believability",
+      "label": "SOTOPIA · Believability（角色表现可信度）",
+      "note": "包含自然性与人物性格、价值观一致性，按当前主表分类归入 F；保持被测角色完整配置对的原始 0–10 分。",
+      "dataset": "SOTOPIA",
+      "summary": true,
+      "summary_reason": "包含自然性与人物性格、价值观一致性，按当前主表分类归入 F；保持被测角色完整配置对的原始 0–10 分。"
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.item_correct",
+      "label": "FANToM · Item accuracy",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": true,
+      "summary_reason": "set 与 item 的自然统计单位不同；保留原聚合口径。"
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.all",
+      "label": "FANToM · ALL",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.all_star",
+      "label": "FANToM · ALL*",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.belief_choice_accuracy",
+      "label": "FANToM · Belief choice",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.belief_distance_accuracy",
+      "label": "FANToM · Belief semantic accuracy",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.answerability_list_accuracy",
+      "label": "FANToM · Answerability list",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.answerability_binary_accuracy",
+      "label": "FANToM · Answerability binary",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.information_access_list_accuracy",
+      "label": "FANToM · Information access list",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "fantom",
+      "metric": "fantom.information_access_binary_accuracy",
+      "label": "FANToM · Information access binary",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "dataset": "FANToM",
+      "summary": false
+    },
+    {
+      "dimension": "S",
+      "entry": "social_r1",
+      "metric": "social_r1.accuracy",
+      "label": "Social-R1 · 准确率",
+      "note": "",
+      "dataset": "Social-R1",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "S",
+      "entry": "agentsense",
+      "metric": "agentsense.episode.private_information_accuracy",
+      "label": "AgentSense · 私有信息准确率",
+      "note": "仅适用于有私有信息问题的 episode。",
+      "dataset": "AgentSense",
+      "summary": true,
+      "summary_reason": "仅适用于有私有信息问题的 episode。"
+    },
+    {
+      "dimension": "U",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.goal",
+      "label": "SOTOPIA · goal",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "dataset": "SOTOPIA",
+      "summary": true,
+      "summary_reason": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。"
+    },
+    {
+      "dimension": "U",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.relationship",
+      "label": "SOTOPIA · relationship",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "dataset": "SOTOPIA",
+      "summary": true,
+      "summary_reason": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。"
+    },
+    {
+      "dimension": "U",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.knowledge",
+      "label": "SOTOPIA · knowledge",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "dataset": "SOTOPIA",
+      "summary": true,
+      "summary_reason": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。"
+    },
+    {
+      "dimension": "U",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.financial_and_material_benefits",
+      "label": "SOTOPIA · financial_and_material_benefits",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "dataset": "SOTOPIA",
+      "summary": true,
+      "summary_reason": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。"
+    },
+    {
+      "dimension": "U",
+      "entry": "agentsense",
+      "metric": "agentsense.episode.judge_majority",
+      "label": "AgentSense · 目标达成多数票",
+      "note": "",
+      "dataset": "AgentSense",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "U",
+      "entry": "agentsense",
+      "metric": "agentsense.episode.self_goal_completion",
+      "label": "AgentSense · Self goal completion",
+      "note": "",
+      "dataset": "AgentSense",
+      "summary": false
+    },
+    {
+      "dimension": "U",
+      "entry": "agentsense",
+      "metric": "agentsense.episode.other_goal_completion",
+      "label": "AgentSense · Other goal completion",
+      "note": "",
+      "dataset": "AgentSense",
+      "summary": false
+    },
+    {
+      "dimension": "U",
+      "entry": "userlm_lic",
+      "metric": "userlm.lic.two_domain_macro.intent_coverage",
+      "label": "UserLM LiC · Intent coverage",
+      "note": "先在 task 内平均 repetitions，再在 code/math 内平均 task，最后对两个 domain 等权；缺一个 domain 时不伪造宏平均。",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "先在 task 内平均 repetitions，再在 code/math 内平均 task，最后对两个 domain 等权；缺一个 domain 时不伪造宏平均。"
+    },
+    {
+      "dimension": "U",
+      "entry": "userlm_lic",
+      "metric": "userlm.lic.two_domain_macro.assistant_task_score",
+      "label": "UserLM LiC · Assistant task score",
+      "note": "先在 task 内平均 repetitions，再在 code/math 内平均 task，最后对两个 domain 等权；缺一个 domain 时不伪造宏平均。",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "先在 task 内平均 repetitions，再在 code/math 内平均 task，最后对两个 domain 等权；缺一个 domain 时不伪造宏平均。"
+    },
+    {
+      "dimension": "T",
+      "entry": "coser",
+      "metric": "coser.scene.storyline_consistency",
+      "label": "CoSER · storyline_consistency",
+      "note": "",
+      "dataset": "CoSER",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "T",
+      "entry": "coser",
+      "metric": "coser.scene.storyline_quality",
+      "label": "CoSER · Storyline quality",
+      "note": "",
+      "dataset": "CoSER",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "T",
+      "entry": "behaviorchain",
+      "metric": "behaviorchain.prediction.cum_score",
+      "label": "BehaviorChain · CumScore",
+      "note": "完整链的连续正确段累计分，再按 persona chain 等权；不与节点分互相替代。",
+      "dataset": "BehaviorChain",
+      "summary": true,
+      "summary_reason": "完整链的连续正确段累计分，再按 persona chain 等权；不与节点分互相替代。"
+    },
+    {
+      "dimension": "N",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.termination_f1",
+      "label": "UserLM Section 3 · Termination F1",
+      "note": "窄覆盖：仅带终止标签的 PRISM cases，不代表所有多轮任务的停止能力。",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "窄覆盖：仅带终止标签的 PRISM cases，不代表所有多轮任务的停止能力。"
+    },
+    {
+      "dimension": "N",
+      "entry": "mirrorbench",
+      "metric": "mirrorbench.judge.gteval",
+      "label": "MirrorBench · GTEVAL",
+      "note": "",
+      "dataset": "MirrorBench",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "N",
+      "entry": "mirrorbench",
+      "metric": "mirrorbench.judge.rnr",
+      "label": "MirrorBench · RNR",
+      "note": "",
+      "dataset": "MirrorBench",
+      "summary": false
+    },
+    {
+      "dimension": "N",
+      "entry": "mirrorbench",
+      "metric": "mirrorbench.lexical.mattr.z_score_mean",
+      "label": "MirrorBench · mattr z-score",
+      "note": "以人类分布为基准，越接近 0 越好；负值不表示更差或无效。",
+      "dataset": "MirrorBench",
+      "summary": true,
+      "summary_reason": "以人类分布为基准，越接近 0 越好；负值不表示更差或无效。"
+    },
+    {
+      "dimension": "N",
+      "entry": "mirrorbench",
+      "metric": "mirrorbench.lexical.hdd.z_score_mean",
+      "label": "MirrorBench · hdd z-score",
+      "note": "以人类分布为基准，越接近 0 越好；负值不表示更差或无效。",
+      "dataset": "MirrorBench",
+      "summary": false
+    },
+    {
+      "dimension": "N",
+      "entry": "mirrorbench",
+      "metric": "mirrorbench.lexical.yules_k.z_score_mean",
+      "label": "MirrorBench · yules_k z-score",
+      "note": "以人类分布为基准，越接近 0 越好；负值不表示更差或无效。",
+      "dataset": "MirrorBench",
+      "summary": false
+    },
+    {
+      "dimension": "N",
+      "entry": "coser",
+      "metric": "coser.scene.anthropomorphism",
+      "label": "CoSER · Anthropomorphism",
+      "note": "",
+      "dataset": "CoSER",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    },
+    {
+      "dimension": "N",
+      "entry": "tau_usi",
+      "metric": "tau_usi.d1_communication",
+      "label": "τ-USI · D1 Communication",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "dataset": "τ-USI",
+      "summary": false
+    },
+    {
+      "dimension": "N",
+      "entry": "tau_usi",
+      "metric": "tau_usi.d2_information",
+      "label": "τ-USI · D2 Information",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "dataset": "τ-USI",
+      "summary": false
+    },
+    {
+      "dimension": "N",
+      "entry": "tau_usi",
+      "metric": "tau_usi.d3_clarification",
+      "label": "τ-USI · D3 Clarification",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "dataset": "τ-USI",
+      "summary": false
+    },
+    {
+      "dimension": "N",
+      "entry": "tau_usi",
+      "metric": "tau_usi.d4_error_reaction",
+      "label": "τ-USI · D4 Error reaction",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "dataset": "τ-USI",
+      "summary": false
+    },
+    {
+      "dimension": "N",
+      "entry": "tau_usi",
+      "metric": "tau_usi.eval",
+      "label": "τ-USI · Eval",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "dataset": "τ-USI",
+      "summary": true,
+      "summary_reason": "保留原有总体评价分，与 USI 相关但不相加。"
+    },
+    {
+      "dimension": "N",
+      "entry": "tau_usi",
+      "metric": "tau_usi.outcome_alignment",
+      "label": "τ-USI · Outcome alignment",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "dataset": "τ-USI",
+      "summary": true,
+      "summary_reason": "与真实人类结果分布的对齐程度；保留原聚合协议。"
+    },
+    {
+      "dimension": "N",
+      "entry": "tau_usi",
+      "metric": "tau_usi.usi",
+      "label": "τ-USI · USI",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "dataset": "τ-USI",
+      "summary": true,
+      "summary_reason": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。"
+    },
+    {
+      "dimension": "N",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.ai_detector_human_likelihood",
+      "label": "UserLM Section 3 · AI-human likelihood",
+      "note": "按实际适用的 Section 3 子集统计，不能用整个 entry 数量替代有效分母。",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "按实际适用的 Section 3 子集统计，不能用整个 entry 数量替代有效分母。"
+    },
+    {
+      "dimension": "N",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.first_turn_diversity",
+      "label": "UserLM Section 3 · First-turn diversity",
+      "note": "按实际适用的 Section 3 子集统计，不能用整个 entry 数量替代有效分母。",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "按实际适用的 Section 3 子集统计，不能用整个 entry 数量替代有效分母。"
+    },
+    {
+      "dimension": "N",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.intent_decomposition_overlap",
+      "label": "UserLM Section 3 · Intent decomposition overlap",
+      "note": "intent decomposition overlap 越低越好；保留该指标原方向。",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "intent decomposition overlap 越低越好；保留该指标原方向。"
+    },
+    {
+      "dimension": "N",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.role_adherence",
+      "label": "UserLM Section 3 · role_adherence",
+      "note": "",
+      "dataset": "UserLM",
+      "summary": true,
+      "summary_reason": "按五维主指标协议固定展示。"
+    }
+  ],
+  "summary_revision": "capability-main-metrics-five-dimensions-v3",
+  "selection_notes": [
+    "主表按 F/S/U/T/N 五维展开，同一数据集在一个维度下可保留多类重要指标；不计算维度均分或跨指标总分。",
+    "FANToM 主表固定为 item accuracy；ALL/ALL*、二分类 F1 等保留在详细表，不按可用性替换。",
+    "BehaviorChain F 固定为 node_micro_score，T 为 CumScore；AvgScore 保留在详细表。",
+    "HUMANUAL 保留 response/state；CoSER T 保留 storyline consistency/quality。",
+    "MirrorBench 保留 GTEval 与 MATTR z-score；后者越接近 0 越好。",
+    "τ-USI 在 N 保留 Eval、outcome alignment、USI；USI 与组件不再相加。",
+    "UserLM intent adherence 属于 F；role adherence 和 termination F1 属于 N。",
+    "one-per-dataset 是可选阅读缩略版，不是默认主表。",
+    "SOTOPIA Believability 按人物表现可信度归入 F，原始评分与数值不变。"
+  ]
+}

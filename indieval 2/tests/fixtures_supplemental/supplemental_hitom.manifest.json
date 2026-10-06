@@ -1,0 +1,8 @@
+{
+  "benchmark_id": "supplemental_hitom",
+  "path": "supplemental_hitom.jsonl",
+  "format": "jsonl",
+  "source_kind": "synthetic_fixture",
+  "source_revision": "supplemental-original-synthetic-fixture-v1",
+  "split": "fixture"
+}

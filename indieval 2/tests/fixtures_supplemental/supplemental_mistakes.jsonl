@@ -1,0 +1,1 @@
+{"source_id": "synthetic-1", "group_source_id": "synthetic-group-1", "input": {"row": {"QuestionText": "What is 2 + 3?", "AnswerAText": "5", "AnswerBText": "6", "AnswerCText": "7", "AnswerDText": "8", "MisconceptionName": "Adds one extra."}}, "gold": {"TargetOption": "B"}, "strata": {"target_option": "B"}, "metadata": {"synthetic": true}}

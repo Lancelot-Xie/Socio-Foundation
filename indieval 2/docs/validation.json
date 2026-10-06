@@ -1,0 +1,69 @@
+{
+  "release": "indieval",
+  "version": "0.3.40",
+  "unit_tests": {
+    "collected": 508,
+    "passed": 499,
+    "skipped": 9,
+    "errors": 0,
+    "failures": 0,
+    "scope": "synthetic unit/integration tests; optional platform or external-resource checks may skip"
+  },
+  "protocol_parity": {
+    "benchmarks": 20,
+    "core_cases": 48,
+    "supplemental_cases": 7,
+    "captured_model_requests": 178,
+    "differences_after_neutral_label_mapping": 0,
+    "checked": [
+      "model-visible messages",
+      "request parameters",
+      "predictions",
+      "per-case metrics",
+      "core benchmark aggregates"
+    ]
+  },
+  "installation": {
+    "wheel_build": "passed",
+    "source_distribution_build": "passed",
+    "installed_doctor": "passed",
+    "installed_replay_benchmarks": 13,
+    "installed_replay_failures": 0,
+    "resume_summary_identical": true,
+    "report_generation": "passed",
+    "tested_python": "3.12.14"
+  },
+  "example": {
+    "benchmark": "lifechoices",
+    "model": "Qwen/Qwen3-8B",
+    "thinking": false,
+    "synthetic_cases": 2,
+    "configuration_preflight": "passed",
+    "mock_http_evaluate_and_resume": "passed",
+    "real_model_evaluation": "not_run"
+  },
+  "anonymity": {
+    "known_private_identifier_scan": "passed",
+    "generic_path_and_credential_scan": "passed",
+    "private_datasets_included": false,
+    "private_reverse_mapping_included": false,
+    "source_zip_metadata": "fixed timestamps, relative paths, no owner names"
+  },
+  "limitations": [
+    "Real evaluation requires authorized datasets and configured model services.",
+    "Local neural scorers, code isolation and the optional tool runtime require their declared dependencies.",
+    "Synthetic agreement does not certify canonical leaderboard equivalence or every live resource path."
+  ],
+  "full_suite_examples": {
+    "core_entries": 14,
+    "supplemental_entries": 7,
+    "synthetic_planning": "passed",
+    "all_imported_cases_and_groups_selected": true,
+    "candidate_no_thinking_all_entries": true,
+    "all_role_generation_settings_preserved": true,
+    "tau_resource_path_resolution": "passed",
+    "generic_runtime_parsing": "passed",
+    "model_calls": 0,
+    "real_full_data_evaluation": "not_run"
+  }
+}

@@ -1,0 +1,9 @@
+include README.md LICENSE NOTICE
+recursive-include docs *.md *.json
+recursive-include configs *.yaml
+recursive-include examples *.json
+recursive-include tests *.py *.json *.jsonl
+recursive-include scripts *.py
+recursive-include tools *.py
+recursive-include sim_eval/resources *.json *.jsonl *.yaml
+recursive-include sim_eval/extensions LICENSE

@@ -1,0 +1,53 @@
+# Editable tau resource paths/checksums; role routing is supplied by the suite.
+schema_version: '1.2'
+benchmark_id: tau_usi
+target_user:
+  backend: vllm
+  extra_body:
+    chat_template_kwargs:
+      enable_thinking: false
+  profile: vllm
+  base_url: http://127.0.0.1:8000/v1
+  api_key_env: TAU_USI_API_KEY
+  require_api_key: false
+  model: replace-with-user-simulator-model
+  model_revision: replace-with-immutable-user-model-revision
+  generation:
+    temperature: 0.0
+    max_tokens: 256
+fixed_assistant:
+  backend: openai_compatible
+  base_url: https://api.openai.com/v1
+  api_key_env: OPENAI_API_KEY
+  require_api_key: true
+  model: replace-with-held-fixed-assistant-model
+  model_revision: replace-with-immutable-assistant-revision
+  generation:
+    temperature: 0.0
+    max_tokens: 512
+  policy_revision: supplemental-text-tool-policy-6d1f3b00d1e5-v4
+environment:
+  runtime: local_tau_bench_v1
+  revision: tau-usi-task-loop-v4-supplemental-text-tools-user-handoff
+  tool_schema_revision: supplemental-text-tool-calls-v4
+  task_source_revision: 6d1f3b00d1e5bf2448540b97f8b050705c754c9d0e8263b7f676479012549d38
+limits:
+  episode_max_output_tokens: 32768
+  max_workers: 16
+  max_user_turns: 60
+  max_assistant_steps_per_user_turn: 64
+  request_timeout_seconds: 120
+  max_retries: 2
+  survey_required: true
+scoring:
+  annotation_local_path: ../../local_data/tau_usi/annotations.json
+  annotation_revision: replace-with-sha256
+  feature_extractor_revision: indieval-supplemental-tau-usi-feature-extractor-v1
+  survey_schema_revision: tau-usi-official-text-options-missing-rng42-v3
+  difficulty_local_path: ../../local_data/tau_usi/difficulty.json
+  difficulty_revision: replace-with-sha256
+  human_batch_ids:
+  - human_batch_1
+  - human_batch_2
+  - human_batch_3
+  expected_task_count: 165

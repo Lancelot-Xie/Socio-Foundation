@@ -1,0 +1,66 @@
+schema_version: '1.0'
+profiles:
+  vllm:
+    backend: vllm
+    base_url: http://127.0.0.1:8000/v1
+    api_key_env: VLLM_API_KEY
+    require_api_key: false
+    max_inflight_requests: 64
+    token_limit_field: max_tokens
+    send_sampling_params: true
+    extra_body:
+      chat_template_kwargs:
+        enable_thinking: false
+    structured_output:
+      mode: auto
+      fallback_order:
+      - structured_outputs
+      - json_schema
+      - json_object
+      - none
+  deepseek:
+    backend: chat_completions
+    base_url: https://provider.example/v1
+    base_url_env: DEEPSEEK_BASE_URL
+    api_key_env: DEEPSEEK_API_KEY
+    require_api_key: true
+    max_inflight_requests: 64
+    token_limit_field: max_tokens
+    send_sampling_params: true
+    structured_output:
+      mode: none
+    extra_body:
+      chat_template_kwargs:
+        thinking: false
+  relay:
+    backend: chat_completions
+    base_url: https://relay.example/v1
+    base_url_env: RELAY_BASE_URL
+    api_key_env: RELAY_API_KEY
+    require_api_key: true
+    max_inflight_requests: 8
+    token_limit_field: max_completion_tokens
+    send_sampling_params: false
+    structured_output:
+      mode: auto
+      fallback_order:
+      - json_schema
+      - json_object
+      - none
+  openai:
+    backend: openai_responses
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY
+    require_api_key: true
+    max_inflight_requests: 8
+    send_sampling_params: false
+    extra_body:
+      store: false
+  openai_compatible:
+    backend: openai_compatible
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY
+    require_api_key: true
+    max_inflight_requests: 16
+    token_limit_field: max_tokens
+    send_sampling_params: true

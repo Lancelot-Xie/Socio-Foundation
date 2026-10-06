@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "coser",
+  "execution": {
+    "profile": "coser_200_live",
+    "repetitions": 1,
+    "max_workers": 16,
+    "request_timeout_seconds": 300,
+    "episode_max_output_tokens": 45000
+  },
+  "roles": {
+    "evaluated_actor": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "COSER_ACTOR_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-actor-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 2048
+      }
+    },
+    "environment_actor": {
+      "backend": "openai_compatible",
+      "base_url": "http://127.0.0.1:8001/v1",
+      "api_key_env": "COSER_ENV_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-environment-actor-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      }
+    },
+    "next_speaker": {
+      "backend": "openai_compatible",
+      "base_url": "http://127.0.0.1:8001/v1",
+      "api_key_env": "COSER_ENV_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-next-speaker-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      }
+    },
+    "judge": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "model": "replace-with-judge-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.0,
+          "max_tokens": 4096
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_actor"
+  },
+  "prompts": {
+    "roleplay": {
+      "source": "official_repository",
+      "revision": "coser-roleplay-prompt-v1",
+      "locator": "sim_eval/benchmarks/coser.py"
+    },
+    "critic": {
+      "source": "official_repository",
+      "revision": "coser-self-play-deduct-template-upstream-exact-v1",
+      "locator": "sim_eval/benchmarks/coser.py"
+    }
+  },
+  "environment": {
+    "retrieval_mode": "none",
+    "retrieval_k": 0,
+    "hidden_thought_policy": "role_private_removed_from_other_roles_and_critic",
+    "max_judge_context_tokens": 131072
+  }
+}

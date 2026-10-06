@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "supplemental_twinvoice",
+  "execution": {
+    "profile": "supplemental_supplementary_100_v1",
+    "repetitions": 1,
+    "max_workers": 16,
+    "request_timeout_seconds": 600,
+    "episode_max_output_tokens": 32768
+  },
+  "roles": {
+    "evaluated_model": {
+      "backend": "vllm",
+      "profile": "vllm",
+      "base_url": "http://127.0.0.1:6666/v1",
+      "api_key_env": "VLLM_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-model-model",
+      "model_revision": "replace-with-immutable-revision",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_model"
+  },
+  "prompts": {
+    "protocol": {
+      "source": "supplemental_compat",
+      "revision": "supplemental-local-eval-snapshot-v1",
+      "locator": "sim_eval/benchmarks/supplemental_twinvoice.py"
+    }
+  },
+  "environment": {
+    "protocol_revision": "supplemental-local-eval-snapshot-v1",
+    "max_turns": 1
+  },
+  "scoring": {
+    "protocol_revision": "supplemental-local-eval-snapshot-v1",
+    "missing_component_policy": "source_fixed_denominator"
+  }
+}

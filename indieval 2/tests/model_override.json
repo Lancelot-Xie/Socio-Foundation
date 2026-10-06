@@ -1,0 +1,18 @@
+{
+  "evaluated_model": {
+    "model": "fixture-model",
+    "model_revision": "fixture-model-v1",
+    "token_accounting": {
+      "kind": "huggingface",
+      "model_path": "models/fixture-tokenizer",
+      "model_id": "fixture-tokenizer",
+      "model_revision": "fixture-tokenizer-v1",
+      "local_files_only": true,
+      "use_fast": true,
+      "model_context_tokens": 32768,
+      "min_generation_tokens": 10
+    },
+    "backend": "vllm"
+  },
+  "schema_version": "1.0"
+}

@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0",
+  "mapping_revision": "capability-main-metrics-five-dimensions-v3",
+  "aggregation": "group_only_no_composite_score",
+  "dimensions": [
+    {
+      "id": "F",
+      "name_en": "Individual Fidelity",
+      "name_zh": "个体保真",
+      "question": "是否复现目标个体、角色、偏好、状态及给定意图"
+    },
+    {
+      "id": "S",
+      "name_en": "Social-State Grounding",
+      "name_zh": "社会状态理解",
+      "question": "是否理解他人的信念、知识、意图、情绪和私有信息"
+    },
+    {
+      "id": "U",
+      "name_en": "User Utility & Outcome Realization",
+      "name_zh": "用户效用与结果实现",
+      "question": "是否推进目标并产生实际任务或社会结果"
+    },
+    {
+      "id": "T",
+      "name_en": "Sequential & Narrative Coherence",
+      "name_zh": "序列与叙事连贯性",
+      "question": "多轮行为是否前后连贯、符合因果和情节发展"
+    },
+    {
+      "id": "N",
+      "name_en": "Human Behavioral Realism",
+      "name_zh": "人类行为真实性",
+      "question": "表达、反应、披露、终止及结果分布是否接近真实人类"
+    }
+  ],
+  "selection_notes": [
+    "主表按 F/S/U/T/N 五维展开，同一数据集在一个维度下可保留多类重要指标；不计算维度均分或跨指标总分。",
+    "FANToM 主表固定为 item accuracy；ALL/ALL*、二分类 F1 等保留在详细表，不按可用性替换。",
+    "BehaviorChain F 固定为 node_micro_score，T 为 CumScore；AvgScore 保留在详细表。",
+    "HUMANUAL 保留 response/state；CoSER T 保留 storyline consistency/quality。",
+    "MirrorBench 保留 GTEval 与 MATTR z-score；后者越接近 0 越好。",
+    "τ-USI 在 N 保留 Eval、outcome alignment、USI；USI 与组件不再相加。",
+    "UserLM intent adherence 属于 F；role adherence 和 termination F1 属于 N。",
+    "one-per-dataset 是可选阅读缩略版，不是默认主表。",
+    "SOTOPIA Believability 按人物表现可信度归入 F，原始评分与数值不变。"
+  ],
+  "metrics": [
+    {
+      "dimension": "F",
+      "dataset": "LifeChoices",
+      "entry": "lifechoices",
+      "metric": "lifechoices.accuracy",
+      "label": "LifeChoices · 选择准确率",
+      "note": "",
+      "metric_type": "choice",
+      "representative": true
+    },
+    {
+      "dimension": "F",
+      "dataset": "AlignX",
+      "entry": "alignx",
+      "metric": "alignx.direct_choice_accuracy",
+      "label": "AlignX · 直接选择准确率",
+      "note": "使用当前 direct-choice 协议，不替换成 reference-margin 指标。",
+      "metric_type": "choice",
+      "representative": true
+    },
+    {
+      "dimension": "F",
+      "dataset": "HumanLLM",
+      "entry": "humanllm",
+      "metric": "humanllm.diagnostic.top5_accuracy",
+      "label": "HumanLLM · Top-5 准确率",
+      "note": "",
+      "metric_type": "ranking",
+      "representative": true
+    },
+    {
+      "dimension": "F",
+      "dataset": "BehaviorChain",
+      "entry": "behaviorchain",
+      "metric": "behaviorchain.diagnostic.node_micro_score",
+      "label": "BehaviorChain · Node score",
+      "note": "节点级微平均准确率；AvgScore（按链等权）另列于数据集明细，不互相替代。",
+      "metric_type": "node_accuracy",
+      "representative": true
+    },
+    {
+      "dimension": "F",
+      "dataset": "CoSER",
+      "entry": "coser",
+      "metric": "coser.scene.character_fidelity",
+      "label": "CoSER · Character Fidelity",
+      "note": "采用框架已算好的场景 GCA 分，不另行修正 actor runs，也不改用不可用的逐角色分。",
+      "metric_type": "character_fidelity",
+      "representative": true
+    },
+    {
+      "dimension": "F",
+      "dataset": "HUMANUAL",
+      "entry": "humanual",
+      "metric": "humanual.response_alignment",
+      "label": "HUMANUAL · Response alignment",
+      "note": "",
+      "metric_type": "response_alignment",
+      "representative": true
+    },
+    {
+      "dimension": "F",
+      "dataset": "HUMANUAL",
+      "entry": "humanual",
+      "metric": "humanual.state_alignment",
+      "label": "HUMANUAL · State alignment",
+      "note": "",
+      "metric_type": "state_alignment",
+      "representative": false
+    },
+    {
+      "dimension": "F",
+      "dataset": "UserLM",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.intent_adherence",
+      "label": "UserLM Section 3 · intent_adherence",
+      "note": "",
+      "metric_type": "intent_adherence",
+      "representative": true
+    },
+    {
+      "dimension": "F",
+      "dataset": "SOTOPIA",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.believability",
+      "label": "SOTOPIA · Believability（角色表现可信度）",
+      "note": "包含自然性与人物性格、价值观一致性，按当前主表分类归入 F；保持被测角色完整配置对的原始 0–10 分。",
+      "metric_type": "believability",
+      "representative": true
+    },
+    {
+      "dimension": "S",
+      "dataset": "FANToM",
+      "entry": "fantom",
+      "metric": "fantom.item_correct",
+      "label": "FANToM · Item accuracy",
+      "note": "set 与 item 的自然统计单位不同；保留原聚合口径。",
+      "metric_type": "theory_of_mind",
+      "representative": true
+    },
+    {
+      "dimension": "S",
+      "dataset": "Social-R1",
+      "entry": "social_r1",
+      "metric": "social_r1.accuracy",
+      "label": "Social-R1 · 准确率",
+      "note": "",
+      "metric_type": "reasoning_accuracy",
+      "representative": true
+    },
+    {
+      "dimension": "S",
+      "dataset": "AgentSense",
+      "entry": "agentsense",
+      "metric": "agentsense.episode.private_information_accuracy",
+      "label": "AgentSense · 私有信息准确率",
+      "note": "仅适用于有私有信息问题的 episode。",
+      "metric_type": "private_information",
+      "representative": true
+    },
+    {
+      "dimension": "U",
+      "dataset": "SOTOPIA",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.goal",
+      "label": "SOTOPIA · goal",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "metric_type": "goal",
+      "representative": true
+    },
+    {
+      "dimension": "U",
+      "dataset": "SOTOPIA",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.relationship",
+      "label": "SOTOPIA · relationship",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "metric_type": "relationship",
+      "representative": false
+    },
+    {
+      "dimension": "U",
+      "dataset": "SOTOPIA",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.knowledge",
+      "label": "SOTOPIA · knowledge",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "metric_type": "knowledge",
+      "representative": false
+    },
+    {
+      "dimension": "U",
+      "dataset": "SOTOPIA",
+      "entry": "sotopia",
+      "metric": "sotopia.configuration_mean.financial_and_material_benefits",
+      "label": "SOTOPIA · financial_and_material_benefits",
+      "note": "使用被测角色的 configuration 宏平均原始维度分，不混入固定伙伴分；各维度量纲保持原样。",
+      "metric_type": "financial_benefits",
+      "representative": false
+    },
+    {
+      "dimension": "U",
+      "dataset": "AgentSense",
+      "entry": "agentsense",
+      "metric": "agentsense.episode.judge_majority",
+      "label": "AgentSense · 目标达成多数票",
+      "note": "",
+      "metric_type": "goal_completion",
+      "representative": true
+    },
+    {
+      "dimension": "U",
+      "dataset": "UserLM",
+      "entry": "userlm_lic",
+      "metric": "userlm.lic.two_domain_macro.intent_coverage",
+      "label": "UserLM LiC · Intent coverage",
+      "note": "先在 task 内平均 repetitions，再在 code/math 内平均 task，最后对两个 domain 等权；缺一个 domain 时不伪造宏平均。",
+      "metric_type": "intent_coverage",
+      "representative": false
+    },
+    {
+      "dimension": "U",
+      "dataset": "UserLM",
+      "entry": "userlm_lic",
+      "metric": "userlm.lic.two_domain_macro.assistant_task_score",
+      "label": "UserLM LiC · Assistant task score",
+      "note": "先在 task 内平均 repetitions，再在 code/math 内平均 task，最后对两个 domain 等权；缺一个 domain 时不伪造宏平均。",
+      "metric_type": "task_success",
+      "representative": true
+    },
+    {
+      "dimension": "T",
+      "dataset": "CoSER",
+      "entry": "coser",
+      "metric": "coser.scene.storyline_consistency",
+      "label": "CoSER · storyline_consistency",
+      "note": "",
+      "metric_type": "narrative",
+      "representative": true
+    },
+    {
+      "dimension": "T",
+      "dataset": "BehaviorChain",
+      "entry": "behaviorchain",
+      "metric": "behaviorchain.prediction.cum_score",
+      "label": "BehaviorChain · CumScore",
+      "note": "完整链的连续正确段累计分，再按 persona chain 等权；不与节点分互相替代。",
+      "metric_type": "sequence",
+      "representative": true
+    },
+    {
+      "dimension": "T",
+      "dataset": "CoSER",
+      "entry": "coser",
+      "metric": "coser.scene.storyline_quality",
+      "label": "CoSER · Storyline quality",
+      "metric_type": "narrative_quality",
+      "note": "",
+      "representative": false
+    },
+    {
+      "dimension": "N",
+      "dataset": "UserLM",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.termination_f1",
+      "label": "UserLM Section 3 · Termination F1",
+      "note": "窄覆盖：仅带终止标签的 PRISM cases，不代表所有多轮任务的停止能力。",
+      "metric_type": "termination",
+      "representative": false
+    },
+    {
+      "dimension": "N",
+      "dataset": "MirrorBench",
+      "entry": "mirrorbench",
+      "metric": "mirrorbench.judge.gteval",
+      "label": "MirrorBench · GTEVAL",
+      "note": "",
+      "metric_type": "dialogue_similarity",
+      "representative": true
+    },
+    {
+      "dimension": "N",
+      "dataset": "MirrorBench",
+      "entry": "mirrorbench",
+      "metric": "mirrorbench.lexical.mattr.z_score_mean",
+      "label": "MirrorBench · mattr z-score",
+      "note": "以人类分布为基准，越接近 0 越好；负值不表示更差或无效。",
+      "metric_type": "lexical_distribution",
+      "representative": false
+    },
+    {
+      "dimension": "N",
+      "dataset": "CoSER",
+      "entry": "coser",
+      "metric": "coser.scene.anthropomorphism",
+      "label": "CoSER · Anthropomorphism",
+      "note": "",
+      "metric_type": "anthropomorphism",
+      "representative": true
+    },
+    {
+      "dimension": "N",
+      "dataset": "τ-USI",
+      "entry": "tau_usi",
+      "metric": "tau_usi.usi",
+      "label": "τ-USI · USI",
+      "note": "按用户分类放在 N；USI 与各组件相关，不再相加。整体不可用时保留缺失，不从部分 case 重算。",
+      "metric_type": "behavior_composite",
+      "representative": true
+    },
+    {
+      "dimension": "N",
+      "dataset": "UserLM",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.ai_detector_human_likelihood",
+      "label": "UserLM Section 3 · AI-human likelihood",
+      "note": "按实际适用的 Section 3 子集统计，不能用整个 entry 数量替代有效分母。",
+      "metric_type": "human_likelihood",
+      "representative": true
+    },
+    {
+      "dimension": "N",
+      "dataset": "UserLM",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.first_turn_diversity",
+      "label": "UserLM Section 3 · First-turn diversity",
+      "note": "按实际适用的 Section 3 子集统计，不能用整个 entry 数量替代有效分母。",
+      "metric_type": "diversity",
+      "representative": false
+    },
+    {
+      "dimension": "N",
+      "dataset": "UserLM",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.intent_decomposition_overlap",
+      "label": "UserLM Section 3 · Intent decomposition overlap",
+      "note": "intent decomposition overlap 越低越好；保留该指标原方向。",
+      "metric_type": "intent_decomposition",
+      "representative": false
+    },
+    {
+      "dimension": "N",
+      "dataset": "UserLM",
+      "entry": "userlm_section3",
+      "metric": "userlm.intrinsic.role_adherence",
+      "label": "UserLM Section 3 · role_adherence",
+      "note": "",
+      "metric_type": "role_boundary",
+      "representative": false
+    },
+    {
+      "dimension": "N",
+      "dataset": "τ-USI",
+      "entry": "tau_usi",
+      "metric": "tau_usi.eval",
+      "label": "τ-USI · Eval",
+      "metric_type": "evaluation",
+      "note": "保留原有总体评价分，与 USI 相关但不相加。",
+      "representative": false
+    },
+    {
+      "dimension": "N",
+      "dataset": "τ-USI",
+      "entry": "tau_usi",
+      "metric": "tau_usi.outcome_alignment",
+      "label": "τ-USI · Outcome alignment",
+      "metric_type": "outcome_alignment",
+      "note": "与真实人类结果分布的对齐程度；保留原聚合协议。",
+      "representative": false
+    }
+  ]
+}

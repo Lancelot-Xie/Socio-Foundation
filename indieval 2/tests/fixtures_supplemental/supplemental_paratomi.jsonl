@@ -1,0 +1,1 @@
+{"source_id": "synthetic-1", "group_source_id": "synthetic-group-1", "input": {"row": {"story": "['Dana put the bead in the box.']", "question": "Where does Dana think the bead is?", "cands": "['box', 'basket']"}}, "gold": {"correct_answer": "box"}, "strata": {"question_type": "first_order"}, "metadata": {"synthetic": true}}

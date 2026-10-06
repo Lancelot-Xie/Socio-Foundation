@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "benchmark_id": "mirrorbench",
+  "execution": {
+    "profile": "mirrorbench_research_200_live",
+    "repetitions": 1,
+    "max_workers": 16,
+    "request_timeout_seconds": 600,
+    "episode_max_output_tokens": 32768
+  },
+  "roles": {
+    "evaluated_user": {
+      "backend": "vllm",
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "base_url": "http://127.0.0.1:8000/v1",
+      "api_key_env": "MIRROR_USER_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-evaluated-user-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 2048
+      }
+    },
+    "fixed_assistant": {
+      "backend": "openai_compatible",
+      "base_url": "http://127.0.0.1:8001/v1",
+      "api_key_env": "MIRROR_ASSISTANT_API_KEY",
+      "require_api_key": false,
+      "model": "replace-with-fixed-assistant-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      }
+    },
+    "judge": {
+      "backend": "chat_completions",
+      "profile": "relay",
+      "model": "replace-with-judge-model",
+      "model_revision": "replace-with-immutable-revision",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 4096
+      },
+      "fallback": {
+        "trigger": "safety_filter",
+        "profile": "deepseek",
+        "model": "replace-with-fallback-model",
+        "model_revision": "replace-with-immutable-revision",
+        "generation": {
+          "temperature": 0.0,
+          "max_tokens": 4096
+        },
+        "fallback_reason": "primary_judge_explicitly_blocked_by_safety_filter"
+      }
+    }
+  },
+  "routing": {
+    "default_role": "evaluated_user"
+  },
+  "prompts": {
+    "user_simulation": {
+      "source": "official_repository",
+      "revision": "mirrorbench-upstream-raw-user-proxy-system-prompt-v2-chat-history-v1",
+      "locator": "sim_eval/benchmarks/mirrorbench.py"
+    },
+    "fixed_assistant": {
+      "source": "official_repository",
+      "revision": "mirrorbench-upstream-raw-assistant-mirror-system-prompt-v2-chat-history-v1",
+      "locator": "sim_eval/benchmarks/mirrorbench.py"
+    },
+    "judge": {
+      "source": "official_repository",
+      "revision": "mirrorbench-upstream-gteval1.0-pi1.1-rnr1.1",
+      "locator": "sim_eval/benchmarks/mirrorbench.py"
+    }
+  },
+  "environment": {
+    "max_user_turns": 12,
+    "max_total_actions": 32,
+    "generation_max_tokens": 2048,
+    "request_timeout_seconds": 600,
+    "max_retries": 2
+  },
+  "scoring": {
+    "tokenizer_policy": "tiktoken_model",
+    "tokenizer_model": "gpt-4o",
+    "tokenizer_revision": "mirrorbench-upstream-tiktoken-gpt-4o-v1",
+    "gteval_prompt_revision": "mirrorbench-upstream-gteval-v1.0-json-schema",
+    "pi_prompt_revision": "mirrorbench-upstream-pairwise-v1.1-json-schema",
+    "rnr_prompt_revision": "mirrorbench-upstream-rnr-v1.1-json-schema",
+    "gteval_samples": 1,
+    "pi_samples": 3,
+    "rnr_samples": 2,
+    "compute_controls": true
+  }
+}

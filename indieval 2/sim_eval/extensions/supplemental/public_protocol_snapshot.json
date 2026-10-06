@@ -1,0 +1,19 @@
+{
+  "revision": "supplemental-local-eval-snapshot-v1",
+  "public_file_sha256": {
+    "__init__.py": "58532ae703d3a3c2f6a75a35417a44372a5b004a2b1d739e1951ae636620ee75",
+    "adapter.py": "a0fff521392ebf6739aebd14f2cde711961bf1f5ca079662f2de68cb21bb34eb",
+    "bridge.py": "36d3385139b3c64b19a0878d2781c405494a354746bab35f4ed4537199082109",
+    "vendor/__init__.py": "88c0f1c36d2547307c222258d364a5888c91736d4fd9092f9b715092eb975c5d",
+    "vendor/doc_prompts.py": "9c79b31e39dbe05e594c77301bd021a450340a27183734515ed41aa406854c4d",
+    "vendor/hitom.py": "7eba3ed0a7f6c47e5f2534f51d4ba943705da7f8fb7ac092dcf34b2127cb6cce",
+    "vendor/math_prompts.py": "cc787df1e7d8252a4a2c6285c0fc3040e36988f2e79a03c887cd6fc0e0313979",
+    "vendor/mistakes.py": "95567356eed7f937a19c49549287ffcb0f88d789cc829c1fd1d8c4e3086dee93",
+    "vendor/paratomi.py": "2854ed8bb3bc0bd5e24432a3740700b17c27a7230ff6a744b33f28d08c4f464b",
+    "vendor/sim_doc.py": "492811d65e772d2e54e07ed5fc9972eeb529ea1fda540c9d13dc41c793ae3ac8",
+    "vendor/sim_math.py": "11988ed29a1648391135f4a8253efcb631febf1cd05bbca63a1907fd535077ee",
+    "vendor/socsci210.py": "46323298687bda1cbf7ce9810ac62a36ffddceca2bbc3c5c78c4d4d2171b2e06",
+    "vendor/text_utils.py": "4f86313e53deaa5c4aee66d5b0734a6199483ff5fded66dc2b1d8a4d16e528b8",
+    "vendor/twinvoice.py": "5ebc00626142fc5f1aa871e7d860f8a3b2e7716d03f2dc7932c930cdfaa3ec42"
+  }
+}

@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.cache/
+artifacts/
+reports/
+local_data/
+models/
+third_party/tau-bench/
+.DS_Store
