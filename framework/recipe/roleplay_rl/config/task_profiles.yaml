@@ -1,0 +1,118 @@
+defaults:
+  strategy: dapo
+  task_reward_weight: 1.0
+  judge:
+    enabled: false
+  dimensions: []
+
+tasks:
+  sotopia:
+    strategy: crpo
+    task_reward_weight: 0.55
+    penalty_reference_key: sotopia/reward
+    penalties:
+      - {key: sotopia/hack_medium, factor: 0.5}
+      - {key: sotopia/hack_high, factor: 0.25}
+    judge:
+      enabled: true
+      success_key: sotopia/judge_parse_success
+    dimensions:
+      - {key: sotopia/goal, channel: task, min: 0, max: 10, weight: 2.0}
+      - {key: sotopia/relationship, channel: task, min: -5, max: 5, weight: 1.0}
+      - {key: sotopia/knowledge, channel: task, min: 0, max: 10, weight: 1.0}
+      - {key: sotopia/financial_and_material_benefits, channel: task, min: -5, max: 5, weight: 0.5}
+      - {key: sotopia/believability, channel: style, min: 0, max: 10, weight: 1.5}
+      - {key: sotopia/secret, channel: style, min: -10, max: 0, weight: 0.5}
+      - {key: sotopia/social_rules, channel: style, min: -10, max: 0, weight: 0.5}
+
+  coser:
+    strategy: crpo
+    task_reward_weight: 0.5
+    penalty_reference_key: coser/reward
+    judge:
+      enabled: true
+      success_key: coser/judge_parse_success
+    dimensions:
+      - {key: coser/Storyline Consistency, channel: task, min: 0, max: 100, weight: 1.0}
+      - {key: coser/Storyline Quality, channel: task, min: 0, max: 100, weight: 1.0}
+      - {key: coser/Anthropomorphism, channel: style, min: 0, max: 100, weight: 1.0}
+      - {key: coser/Character Fidelity, channel: style, min: 0, max: 100, weight: 1.5}
+
+  mirrorbench:
+    strategy: crpo
+    task_reward_weight: 0.4
+    judge:
+      enabled: true
+      confidence_key: mirrorbench/judge_confidence
+      failure_key: mirrorbench/judge_parse_fail
+    dimensions:
+      - {key: mirrorbench/gteval, channel: task, min: 0, max: 1, weight: 1.0}
+      - {key: mirrorbench/gteval, channel: style, min: 0, max: 1, weight: 1.0}
+      - {key: mirrorbench/mattr_gap, channel: style, min: 0, max: 1, weight: 0.25, invert: true}
+      - {key: mirrorbench/hdd_gap, channel: style, min: 0, max: 1, weight: 0.25, invert: true}
+
+  humanual:
+    aliases: [humanual-book, humanual-chat, humanual-email, humanual-news, humanual-opinion, humanual-politics]
+    strategy: crpo
+    task_reward_weight: 0.45
+    penalty_reference_key: humanual/judge_score
+    judge:
+      enabled: true
+      success_key: humanual/parse_success
+    dimensions:
+      - {key: humanual/goal_score, mask_key: humanual/goal_expressed, channel: task, min: 0, max: 1, weight: 1.0}
+      - {key: humanual/communication_score, mask_key: humanual/communication_expressed, channel: task, min: 0, max: 1, weight: 1.0}
+      - {key: humanual/stance_score, mask_key: humanual/stance_expressed, channel: style, min: 0, max: 1, weight: 1.0}
+      - {key: humanual/emotion_score, mask_key: humanual/emotion_expressed, channel: style, min: 0, max: 1, weight: 1.0}
+      - {key: humanual/belief_score, mask_key: humanual/belief_expressed, channel: style, min: 0, max: 1, weight: 1.0}
+      - {key: humanual/value_score, mask_key: humanual/value_expressed, channel: style, min: 0, max: 1, weight: 1.0}
+
+  sim_arena_math:
+    aliases: [sim_math]
+    strategy: crpo
+    task_reward_weight: 0.5
+    judge:
+      enabled: true
+      valid_fraction_key: sim_arena_math/judge_valid_fraction
+    dimensions:
+      - {key: sim_arena_math/fulfillment_rate, channel: task, min: 0, max: 1, weight: 1.5}
+      - {key: sim_arena_math/writing_style_likert, channel: style, min: 0, max: 5, weight: 1.0}
+      - {key: sim_arena_math/interaction_style_likert, channel: style, min: 0, max: 5, weight: 1.0}
+
+  sim_arena_doc:
+    aliases: [sim_doc]
+    strategy: crpo
+    task_reward_weight: 0.5
+    judge:
+      enabled: true
+      valid_fraction_key: sim_arena_doc/judge_valid_fraction
+    dimensions:
+      - {key: sim_arena_doc/writing_fulfillment_rate, channel: task, min: 0, max: 1, weight: 1.0}
+      - {key: sim_arena_doc/interaction_fulfillment_rate, channel: task, min: 0, max: 1, weight: 1.0}
+      - {key: sim_arena_doc/writing_style_likert, channel: style, min: 0, max: 5, weight: 1.0}
+      - {key: sim_arena_doc/interaction_style_likert, channel: style, min: 0, max: 5, weight: 1.0}
+
+  userllm:
+    strategy: crpo
+    task_reward_weight: 0.6
+    infer_penalty_from_base: true
+    judge:
+      enabled: true
+      valid_fraction_key: userllm/judge_valid_fraction
+    dimensions:
+      - {key: userllm/termination_f1, channel: task, min: 0, max: 1, weight: 1.0}
+      - {key: userllm/intent_adherence, channel: task, min: 0, max: 1, weight: 1.0}
+      - {key: userllm/intent_decomposition, channel: style, min: 0, max: 1, weight: 1.0}
+      - {key: userllm/ai_detector_score, channel: style, min: 0, max: 1, weight: 1.0}
+      - {key: userllm/role_adherence, channel: style, min: 0, max: 1, weight: 1.0}
+
+  binary_verifiable:
+    aliases: [fantom, hitom, lifechoices, mistakes, mmtom, paratomi, twinvoice, social_r1, tombench, behavior_chain, alignx, alignx_demo, alignx_pair, alignx_ugc, alignx_arbitrary, alignx_history16, dapo, aime]
+    strategy: dapo
+
+  dense_verifiable:
+    aliases: [socsci210, humanllm, ifbench]
+    strategy: grpo
+
+  sotopia_hint:
+    strategy: grpo
